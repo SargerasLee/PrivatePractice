@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculateImpl.cs" />
-    <Compile Include="ExpressionUtil.cs" />
-    <Compile Include="ICalculate.cs" />
-    <Compile Include="OperationUtil.cs" />
+    <Compile Include="calc\CalculateImpl.cs" />
+    <Compile Include="calc\ExpressionUtil.cs" />
+    <Compile Include="calc\ICalculate.cs" />
+    <Compile Include="calc\OperationUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="recursion\MazeUtil.cs" />
   </ItemGroup>

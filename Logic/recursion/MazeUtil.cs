@@ -16,13 +16,8 @@
 *版本号        :   2020|V1.0.0.0 
 ***********************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Logic.recursion
+namespace Logic.Recursion
 {
 	public class MazeUtil
 	{

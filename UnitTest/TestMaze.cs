@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Net.Mail;
-using Logic.recursion;
+using Logic.Recursion;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest

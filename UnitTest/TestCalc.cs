@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Logic;
+using Logic.Calc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTest
 {
