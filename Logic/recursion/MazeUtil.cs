@@ -96,11 +96,11 @@ namespace Logic.Recursion
 			return JudgeCount;
 		}
 		/// <summary>
-		/// 放置皇后，初始为0
+		/// 递归方法放置皇后，初始为0，数组长度为总皇后个数
 		/// </summary>
-		/// <param name="queen"></param>
-		/// <param name="n"></param>
-		/// <param name="count"></param>
+		/// <param name="queen">皇后位置数组</param>
+		/// <param name="n">第几个皇后</param>
+		/// <param name="count">存放解法数</param>
 		public static void Place(int[] queen, int n,ref int count)
 		{
 			//如果当前放置的皇后 等于数组长度，说明已放置完，打印解法
@@ -114,9 +114,10 @@ namespace Logic.Recursion
 			for (int i = 0; i < queen.Length; i++)
 			{
 				queen[n] = i;
+				//判断是否冲突，不冲突放置下一个
 				if (!IfConflict(queen, n))
 				{
-					Place(queen,n+1,ref count);
+					Place(queen, n + 1, ref count);
 				}
 			}
 		}
@@ -127,7 +128,7 @@ namespace Logic.Recursion
 		/// <param name="queen"></param>
 		private static void Print(int[] queen)
 		{
-			foreach (var i in queen)
+			foreach (int i in queen)
 			{
 				Console.Write(i+"  ");
 			}
@@ -145,7 +146,7 @@ namespace Logic.Recursion
 			for (int i=0;i<n;i++)
 			{
 				//不能同一列， 同一斜线 
-				if(queen[n]==queen[i] || Math.Abs(queen[n]-queen[i])==Math.Abs(n-i))
+				if (queen[n] == queen[i] || Math.Abs(queen[n] - queen[i]) == Math.Abs(n - i))
 				{
 					JudgeCount++;
 					return true;
