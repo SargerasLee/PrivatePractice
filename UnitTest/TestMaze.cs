@@ -38,7 +38,7 @@ namespace UnitTest
 			{
 				for (int j = 0; j < 6; j++)
 				{
-					Console.Write(maze[i,j]);
+					Console.Write(maze[i,j]+"  ");
 				}
 				Console.WriteLine();
 			}
