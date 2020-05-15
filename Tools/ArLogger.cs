@@ -128,7 +128,7 @@ namespace Tools
 			StringWriter sw = new StringWriter(sb);
 			using (XmlTextWriter writer = new XmlTextWriter(sw))
 			{
-				writer.Indentation = 1;  // the Indentation
+				writer.Indentation = 4;  // the Indentation
 				writer.IndentChar = ' ';
 				writer.Formatting = System.Xml.Formatting.Indented;
 				document.WriteTo(writer);
