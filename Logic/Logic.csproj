@@ -41,14 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="calc\CalculateImpl.cs" />
-    <Compile Include="calc\ExpressionUtil.cs" />
-    <Compile Include="calc\ICalculate.cs" />
-    <Compile Include="calc\OperationUtil.cs" />
+    <Compile Include="Calc\CalculateImpl.cs" />
+    <Compile Include="Calc\ExpressionUtil.cs" />
+    <Compile Include="Calc\ICalculate.cs" />
+    <Compile Include="Calc\OperationUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="recursion\MazeUtil.cs" />
-    <Compile Include="sort\SortUtil.cs" />
+    <Compile Include="Recursion\MazeUtil.cs" />
+    <Compile Include="Sort\SortUtil.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Map\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
