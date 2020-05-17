@@ -3,12 +3,12 @@ using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Tools;
+using Tools.Log;
 
 namespace UnitTest
 {
 	[TestClass]
-	public class UnitTest1
+	public class TestLog
 	{
 		[TestMethod]
 		public void TestMethod1()

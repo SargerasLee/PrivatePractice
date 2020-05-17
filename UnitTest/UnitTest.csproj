@@ -57,7 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestMaze.cs" />
     <Compile Include="TestSort.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestLog.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

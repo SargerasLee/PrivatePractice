@@ -10,5 +10,6 @@ namespace Entity
     {
         public string Name { set; get; }
         public bool IsSaleMan { set; get; }
+        public List<Friend> Friends { set; get; }
     }
 }
