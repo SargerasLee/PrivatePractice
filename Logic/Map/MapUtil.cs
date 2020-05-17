@@ -19,7 +19,10 @@ namespace Logic.Map
 		/// <returns></returns>
 		public static string BreadthFirstSearch(Friend friend)
 		{
+			//搜索的队列，如果没找到，就吧friend的所有关系都加入到队列
 			Queue<Friend> queue = new Queue<Friend>();
+			//存放已经被搜索过的friend，防止死循环
+			List<Friend> checkedList=new List<Friend>();
 			queue.Enqueue(friend);
 			while (queue.Count > 0)
 			{
@@ -34,9 +37,12 @@ namespace Logic.Map
 					{
 						foreach (var firstFriend in first.Friends)
 						{
-							queue.Enqueue(firstFriend);
+							//添加到队列里的元素没有被搜索过
+							if(!checkedList.Contains(firstFriend))
+								queue.Enqueue(firstFriend);
 						} 
 					}
+					checkedList.Add(first);
 				}
 			}
 
