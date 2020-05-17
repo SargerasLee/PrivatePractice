@@ -58,11 +58,16 @@
     <Compile Include="TestMaze.cs" />
     <Compile Include="TestSort.cs" />
     <Compile Include="TestLog.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{928FF972-C317-484C-BA5B-9AD8CACA980E}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.csproj">
       <Project>{647DE1EF-0798-4EB8-8CE4-52234581E1C7}</Project>
       <Name>Logic</Name>
