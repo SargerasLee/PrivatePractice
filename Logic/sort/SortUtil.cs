@@ -8,6 +8,7 @@ namespace Logic.Sort
 {
 	public static class SortUtil
 	{
+		#region 冒泡排序
 		/// <summary>
 		/// 冒泡排序
 		/// </summary>
@@ -40,7 +41,9 @@ namespace Logic.Sort
 				array.PrintArray();
 			}
 		}
+		#endregion
 
+		#region 选择排序
 		/// <summary>
 		/// 选择排序
 		/// </summary>
@@ -66,7 +69,9 @@ namespace Logic.Sort
 				array.PrintArray();
 			}
 		}
+		#endregion
 
+		#region 插入排序
 		/// <summary>
 		/// 插入排序
 		/// </summary>
@@ -87,7 +92,103 @@ namespace Logic.Sort
 				array.PrintArray();
 			}
 		}
+		#endregion
 
+		#region 希尔排序
+		/// <summary>
+		/// 希尔排序
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		public static void ShellSort<T>(T[] array, Func<T, T, bool> compareFunc,string mode)
+		{
+			switch(mode)
+			{
+				case "insert":ShellInsertSort(array, compareFunc); break;
+				case "exchange":ShellExchangeSort(array, compareFunc); break;
+			}
+		}
+		private static void ShellInsertSort<T>(T[] array, Func<T, T, bool> compareFunc)
+		{
+			T temp;
+			for (int step = array.Length / 2; step > 0; step /= 2)
+			{
+				for (int i = step; i < array.Length; i++)
+				{
+					temp = array[i];//先保留当前要插入有序表的数
+					int t = i - step;//取有序表最后一个数下标
+					while (t >= 0 && compareFunc(array[t], temp))
+					{
+						array[t + step] = array[t];
+						t-=step;
+					}
+					array[t + step] = temp;//循环结束，说明到了最前边或者不再小于有序表当前数，有序表当前位置+1即为插入位置
+				}
+				array.PrintArray();
+			}
+		}
+		private static void ShellExchangeSort<T>(T[] array, Func<T, T, bool> compareFunc)
+		{
+			T temp;
+			for (int step = array.Length / 2; step > 0; step /= 2)
+			{
+				for (int i = step; i < array.Length; i++)
+				{
+					for (int j = i - step; j >= 0; j -= step)
+					{
+						if (compareFunc(array[j], array[j + step]))
+						{
+							temp = array[j];
+							array[j] = array[j + step];
+							array[j + step] = temp;
+						}
+					}
+				}
+				array.PrintArray();
+			}
+		}
+
+		#endregion
+
+		#region 快速排序
+		/// <summary>
+		/// 快速排序
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		public static void QuickSort<T>(T[] array, Func<T, T, bool> compareFunc, int left,int right)
+		{
+			if (left<right)
+			{
+				T temp = array[left];
+				int i = left;
+				int j = right;
+				while (i < j)
+				{
+					while (i < j && compareFunc(array[j], temp))
+						j--;
+					if (i < j)
+					{
+						array[i] = array[j];
+						i++;
+					}
+					while (i < j && compareFunc(temp, array[i]))
+						i++;
+					if (i < j)
+					{
+						array[j] = array[i];
+						j--;
+					}
+				}
+				array[i] = temp;
+				QuickSort(array, compareFunc, left, i - 1);
+				QuickSort(array, compareFunc, i + 1, right); 
+			}
+			array.PrintArray();
+		}
+		#endregion
+
+		#region 输出数组
 		/// <summary>
 		/// 泛型数组扩展方法，测试输出用
 		/// </summary>
@@ -101,5 +202,6 @@ namespace Logic.Sort
 			}
 			Console.WriteLine();
 		}
+		#endregion
 	}
 }
