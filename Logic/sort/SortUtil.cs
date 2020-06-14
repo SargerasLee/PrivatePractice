@@ -48,10 +48,45 @@ namespace Logic.Sort
 		/// <param name="array"></param>
 		public static void SelectSort<T>(T[] array,Func<T,T,bool> compareFunc)
 		{
-
+			for(int i=0;i<array.Length-1;i++)//共进行n-1趟选择
+			{
+				for(int j=i+1;j<array.Length;j++)//从第i+1个位置到底n-1个位置和第i个位置比较 ，并交换小的数
+				{
+					if(compareFunc(array[i],array[j]))
+					{
+						var temp = array[i];
+						Console.Write(temp+"   ");
+						array[i] = array[j];
+						Console.Write(array[i]+"   ");
+						array[j] = temp;//对象交换可能有问题
+						Console.Write(array[j]+"   ");
+						Console.WriteLine();
+					}
+				}
+				array.PrintArray();
+			}
 		}
 
-
+		/// <summary>
+		/// 插入排序
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		public static void InsertSort<T>(T[] array, Func<T, T, bool> compareFunc)
+		{
+			for(int i=1;i<array.Length;i++)//进行n-1趟
+			{
+				var temp = array[i];//先保留当前要插入有序表的数
+				int t = i - 1;//取有序表最后一个数下标
+				while(t>=0 && compareFunc(array[t],temp))//下标没越界 或 与有序表当前数数一次比较，若小，进入循环
+				{
+					array[t+1] = array[t];//则当前数向后移动一位
+					t--;//有序表下标向前移动一位
+				}
+				array[t+1] = temp;//循环结束，说明到了最前边或者不再小于有序表当前数，有序表当前位置+1即为插入位置
+				array.PrintArray();
+			}
+		}
 
 		/// <summary>
 		/// 泛型数组扩展方法，测试输出用
