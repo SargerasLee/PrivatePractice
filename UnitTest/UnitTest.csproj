@@ -58,12 +58,17 @@
     <Compile Include="TestMaze.cs" />
     <Compile Include="TestSort.cs" />
     <Compile Include="TestLog.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="TestMapSearch.cs" />
+    <Compile Include="TestDesignPattern.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DesignPattern\DesignPattern.csproj">
+      <Project>{E8A1FB25-1759-40DD-B2DF-78BB2EE5B485}</Project>
+      <Name>DesignPattern</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{928FF972-C317-484C-BA5B-9AD8CACA980E}</Project>
       <Name>Entity</Name>

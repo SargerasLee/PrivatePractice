@@ -18,7 +18,7 @@ namespace Logic.Calc
 	    {
 			var list=new List<string>(50);
 			var concatStr = string.Empty;
-			char c;
+			//char c;
 			int count = 0;
 			while (count < expression.Length)
 			{
