@@ -48,6 +48,7 @@
     <Compile Include="SimpleFactory\Operation.cs" />
     <Compile Include="SimpleFactory\OperationFactory.cs" />
     <Compile Include="Singleton\Database.cs" />
+    <Compile Include="TemplateMethod\GameAI.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Strategy\" />

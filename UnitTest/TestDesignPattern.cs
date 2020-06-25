@@ -2,6 +2,7 @@
 using DesignPattern.Facade;
 using DesignPattern.FactoryMethod;
 using DesignPattern.Singleton;
+using DesignPattern.TemplateMethod;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OperationFM = DesignPattern.FactoryMethod.Operation;
 using OperationSF = DesignPattern.SimpleFactory.Operation;
@@ -53,6 +54,15 @@ namespace UnitTest
 			face.GroupFuncA();
 			face.GroupFuncB();
 			face.GroupFuncC();
+		}
+
+		[TestMethod]
+		public void TestTemplateMethod()
+		{
+			GameAI zerg = new ZergAI();
+			GameAI tyron = new TyronAI();
+			zerg.TakeTurn();
+			tyron.TakeTurn();
 		}
 	}
 }
