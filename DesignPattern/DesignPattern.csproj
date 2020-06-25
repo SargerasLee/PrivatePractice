@@ -46,10 +46,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleFactory\Operation.cs" />
     <Compile Include="SimpleFactory\OperationFactory.cs" />
+    <Compile Include="Singleton\Database.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Facade\" />
-    <Folder Include="Singleton\" />
     <Folder Include="Strategy\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

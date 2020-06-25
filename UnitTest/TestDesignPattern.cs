@@ -1,6 +1,6 @@
 ﻿using System;
 using DesignPattern.FactoryMethod;
-using DesignPattern.SimpleFactory;
+using DesignPattern.Singleton;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OperationFM = DesignPattern.FactoryMethod.Operation;
 using OperationSF = DesignPattern.SimpleFactory.Operation;
@@ -23,7 +23,7 @@ namespace UnitTest
 		[TestMethod]
 		public void TestFactoryMethod()
 		{
-			DesignPattern.FactoryMethod.OperationFactory operationFactory = new DesignPattern.FactoryMethod.OperationFactory();
+			OperationFactory operationFactory = new OperationFactory();
 			OperationFM operation = operationFactory.CreateInstance();
 			operation.NumA = 5.5;
 			operation.NumA = 3.2;
@@ -33,6 +33,16 @@ namespace UnitTest
 			opAdd.NumA = 5.5;
 			opAdd.NumB = 3.2;
 			Console.WriteLine(opAdd.GetResult());
+		}
+
+		[TestMethod]
+		public void TestSingleton()
+		{
+			Database db1 = Database.GetInstance();
+			db1.Update();
+			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
+			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
+			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
 		}
 	}
 }
