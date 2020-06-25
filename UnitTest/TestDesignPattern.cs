@@ -1,4 +1,5 @@
 ﻿using System;
+using DesignPattern.Facade;
 using DesignPattern.FactoryMethod;
 using DesignPattern.Singleton;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -43,6 +44,15 @@ namespace UnitTest
 			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
 			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
 			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
+		}
+
+		[TestMethod]
+		public void TestFacade()
+		{
+			Facade face = new Facade();
+			face.GroupFuncA();
+			face.GroupFuncB();
+			face.GroupFuncC();
 		}
 	}
 }

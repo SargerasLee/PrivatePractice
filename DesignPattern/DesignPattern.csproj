@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Facade\Facade.cs" />
     <Compile Include="FactoryMethod\Operation.cs" />
     <Compile Include="FactoryMethod\OperationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -49,7 +50,6 @@
     <Compile Include="Singleton\Database.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Facade\" />
     <Folder Include="Strategy\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
