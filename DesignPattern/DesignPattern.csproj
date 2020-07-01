@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractFactory\IDatabaseFactory.cs" />
+    <Compile Include="AbstractFactory\User.cs" />
     <Compile Include="Facade\Facade.cs" />
     <Compile Include="FactoryMethod\Operation.cs" />
     <Compile Include="FactoryMethod\OperationFactory.cs" />
