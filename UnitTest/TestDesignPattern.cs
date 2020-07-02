@@ -1,4 +1,5 @@
 ﻿using System;
+using DesignPattern.AbstractFactory;
 using DesignPattern.Facade;
 using DesignPattern.FactoryMethod;
 using DesignPattern.Singleton;
@@ -63,6 +64,14 @@ namespace UnitTest
 			GameAI tyron = new TyronAI();
 			zerg.TakeTurn();
 			tyron.TakeTurn();
+		}
+
+		[TestMethod]
+		public void TestAbstractFactory()
+		{
+			IDatabaseFactory factory = new OracleFactory();
+			IUserDB userdao = factory.CreateUserDatabase();
+			Console.WriteLine(userdao);
 		}
 	}
 }

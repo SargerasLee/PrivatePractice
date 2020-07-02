@@ -1,32 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DesignPattern.AbstractFactory
 {
 	/// <summary>
-	/// 抽象工厂
+	/// 抽象数据库工厂
 	/// </summary>
 	public interface IDatabaseFactory
 	{
-		IUser CreateUserDatabase();
+		IUserDB CreateUserDatabase();
 	}
 
 	public class OracleFactory : IDatabaseFactory
 	{
-		public IUser CreateUserDatabase()
+		public IUserDB CreateUserDatabase()
 		{
-			return new OracleUser();
+			string s = "DesignPattern.AbstractFactory.OracleUser";
+			Type t = Type.GetType(s);
+			return (IUserDB)Activator.CreateInstance(t);
+			//return new OracleUser();
 		}
 	}
 
 	public class MysqlFactory : IDatabaseFactory
 	{
-		public IUser CreateUserDatabase()
+		public IUserDB CreateUserDatabase()
 		{
-			return new MySqlUser();
+			string s = "DesignPattern.AbstractFactory.MySqlUser";
+			Type t = Type.GetType(s);
+			return (IUserDB)Activator.CreateInstance(t);
 		}
 	}
 
@@ -34,15 +35,15 @@ namespace DesignPattern.AbstractFactory
 
 
 	/// <summary>
-	/// 抽象产品
+	/// 抽象数据库产品
 	/// </summary>
-	public interface IUser
+	public interface IUserDB
 	{
 		void Insert(User user);
 		User FindUser(int id);
 	}
 
-	public class OracleUser : IUser
+	public class OracleUser : IUserDB
 	{
 		public User FindUser(int id)
 		{
@@ -56,7 +57,7 @@ namespace DesignPattern.AbstractFactory
 		}
 	}
 
-	public class MySqlUser : IUser
+	public class MySqlUser : IUserDB
 	{
 		public User FindUser(int id)
 		{

@@ -55,5 +55,11 @@
   <ItemGroup>
     <Folder Include="Strategy\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\Entity.csproj">
+      <Project>{928FF972-C317-484C-BA5B-9AD8CACA980E}</Project>
+      <Name>Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
