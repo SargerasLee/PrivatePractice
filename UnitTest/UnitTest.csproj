@@ -60,6 +60,7 @@
     <Compile Include="TestLog.cs" />
     <Compile Include="TestMapSearch.cs" />
     <Compile Include="TestDesignPattern.cs" />
+    <Compile Include="TestLinq.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

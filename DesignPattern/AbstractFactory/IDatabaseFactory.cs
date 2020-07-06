@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DesignPattern.AbstractFactory
 {
@@ -18,6 +20,7 @@ namespace DesignPattern.AbstractFactory
 			Type t = Type.GetType(s);
 			return (IUserDB)Activator.CreateInstance(t);
 			//return new OracleUser();
+			
 		}
 	}
 
