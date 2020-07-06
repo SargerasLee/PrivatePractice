@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -69,25 +70,36 @@ namespace Tools.Linq
 			sr.Close();
 		}
 
-		public static void DataTableQuery(BookRoot list)
+		/// <summary>
+		/// 列表转datatable，T为实体类，只写公共属性，别写字段 例如public string Name{set;get;}
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="list"></param>
+		/// <returns></returns>
+		public static DataTable ListToDataTable<T>(List<T> list)
 		{
-			DataTable table = new DataTable("Book");
-			table.Columns.Add("BookCode", typeof(int));
-			table.Columns.Add("BookName", typeof(string));
-			table.Columns.Add("Author", typeof(string));
-			table.Columns.Add("Price", typeof(decimal));
-			table.Columns.Add("PublishDate", typeof(DateTime));
-			table.Columns.Add("IsSuit", typeof(bool));
-			DataRow row = table.NewRow();
-			row["BookCode"] = 1;
-			row["BookName"] = "hh";
-			row["Author"] = 1;
-			row["Price"] = 1;
-			row["PublishDate"] = 1;
-			row["IsSuit"] = 1;
+			Type t = typeof(T);
+			Console.WriteLine(t.Name);
+			DataTable table = new DataTable(t.Name);
 			DataRowCollection collection = table.Rows;
-			collection.Add(row);
-			
+			PropertyInfo[] infos = t.GetProperties();
+			Console.WriteLine(infos.Length);
+			foreach(var info in infos)
+			{
+				table.Columns.Add(info.Name, info.PropertyType);
+				Console.Write(info.Name + "	");
+			}
+			Console.WriteLine();
+			foreach(var item in list)
+			{
+				DataRow row = table.NewRow();
+				foreach (var info in infos)
+				{
+					row[info.Name] = info.GetValue(item);
+				}
+				collection.Add(row);
+			}
+			return table;
 		}
 	}
 }
