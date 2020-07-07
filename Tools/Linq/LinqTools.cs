@@ -1,16 +1,12 @@
-﻿using Entity;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data;
-using System.Data.SqlTypes;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Tools.Convert;
 
 namespace Tools.Linq
 {
@@ -47,59 +43,13 @@ namespace Tools.Linq
 
 		public static void XmlQuery<T>(T t)
 		{
-			
-			XmlSerializer xs = new XmlSerializer(t.GetType());
-
-			StringBuilder sb = new StringBuilder();
-			XmlWriter xw =  XmlWriter.Create(sb,new XmlWriterSettings 
-			{ Encoding=Encoding.UTF8,Indent=true,IndentChars="	",NewLineChars="\n"});
-
-			XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
-			xsn.Add(string.Empty, string.Empty);//命名空间置空
-			xs.Serialize(xw, t,xsn);
-
-			string xmlStr = sb.ToString();
-			
+			string xmlStr = ConvertTools.EntityToXmlString<T>(t);
 			StringReader sr = new StringReader(xmlStr);
 			XmlReader xmlReader = XmlReader.Create(sr);
 			Console.WriteLine(xmlStr);
-			
 			var contacts = XElement.Load(xmlReader);
-			xw.Close();
 			xmlReader.Close();
 			sr.Close();
-		}
-
-		/// <summary>
-		/// 列表转datatable，T为实体类，只写公共属性，别写字段 例如public string Name{set;get;}
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="list"></param>
-		/// <returns></returns>
-		public static DataTable ListToDataTable<T>(List<T> list)
-		{
-			Type t = typeof(T);
-			Console.WriteLine(t.Name);
-			DataTable table = new DataTable(t.Name);
-			DataRowCollection collection = table.Rows;
-			PropertyInfo[] infos = t.GetProperties();
-			Console.WriteLine(infos.Length);
-			foreach(var info in infos)
-			{
-				table.Columns.Add(info.Name, info.PropertyType);
-				Console.Write(info.Name + "	");
-			}
-			Console.WriteLine();
-			foreach(var item in list)
-			{
-				DataRow row = table.NewRow();
-				foreach (var info in infos)
-				{
-					row[info.Name] = info.GetValue(item);
-				}
-				collection.Add(row);
-			}
-			return table;
 		}
 	}
 }

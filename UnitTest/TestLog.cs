@@ -24,7 +24,7 @@ namespace UnitTest
 			root.AppendChild(name);
 			root.AppendChild(age);
 			document.AppendChild(root);
-			ArLogger.Log(document);
+			GeneralLogger.Log(document);
 		}
 
 		[TestMethod]
@@ -32,7 +32,7 @@ namespace UnitTest
 		{
 			string json = "[{name:\"lisi\",age:\"30\"},{name:\"xxx\",age:\"66\"}";
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
-			ArLogger.Log(jObject);
+			GeneralLogger.Log(jObject);
 		}
 	}
 }

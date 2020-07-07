@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Entity;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tools.Convert;
 using Tools.Linq;
 
 namespace UnitTest
@@ -22,7 +23,7 @@ namespace UnitTest
 		public void TestDataTableQuery()
 		{
 			List<Book> books = ReturnTestData();
-			DataTable data = LinqTools.ListToDataTable(books);
+			DataTable data = ConvertTools.ListToDataTable(books);
 			foreach(DataRow row in data.Rows)
 			{
 				foreach(var obj in row.ItemArray)
