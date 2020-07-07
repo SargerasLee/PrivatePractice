@@ -30,10 +30,19 @@ namespace Tools.Log
 	/// </summary>
 	public class GeneralLogger : ILogger
 	{
-		public static string FormatPattern { get; set; }
-		public static bool Open = true;
+		public string FormatPattern { get; set; }
+		public bool Open{ set; get; }
+		public string FullFilePath{ set; get; }
 
+		private string Date = string.Empty;
+		private string LogCode = string.Empty;
 
+		public GeneralLogger(string code,string datePattern)
+		{
+			LogCode = code;
+			Open = true;
+			Date = DateTime.Now.ToString(datePattern);
+		}
 		/// <summary>
 		/// 通用日志
 		/// </summary>
@@ -41,7 +50,7 @@ namespace Tools.Log
 		/// <param name="basePath">盘符下第一级目录</param>
 		/// <param name="path">第二级目录</param>
 		/// <param name="text">打印文本数组</param>
-		public static void Log(string disk, string basePath, string path, params string[] text)
+		public void Log(string disk, string basePath, string path, params string[] text)
 		{
 			if (!Open) return;
 			DateTime nowTime = DateTime.Now;
@@ -87,7 +96,7 @@ namespace Tools.Log
 		/// 应收日志  路径采用默认
 		/// </summary>
 		/// <param name="text">打印文本数组</param>
-		public static void Log(params string[] text)
+		public void Log(params string[] text)
 		{
 			string disk = "C";
 			string basePath = "Log";
@@ -99,7 +108,7 @@ namespace Tools.Log
 		/// json数组打印
 		/// </summary>
 		/// <param name="array">json数组</param>
-		public static void Log(JArray array)
+		public void Log(JArray array)
 		{
 			string s = JsonConvert.SerializeObject(array, Formatting.Indented);
 			Log(s);
@@ -109,7 +118,7 @@ namespace Tools.Log
 		/// json打印
 		/// </summary>
 		/// <param name="obj">单个json对象</param>
-		public static void Log(JObject obj)
+		public void Log(JObject obj)
 		{
 			string s = JsonConvert.SerializeObject(obj, Formatting.Indented);
 			Log(s);
@@ -119,7 +128,7 @@ namespace Tools.Log
 		/// xml打印
 		/// </summary>
 		/// <param name="document">xml文档</param>
-		public static void Log(XmlDocument document)
+		public void Log(XmlDocument document)
 		{
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);

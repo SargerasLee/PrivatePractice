@@ -16,7 +16,7 @@ namespace UnitTest
 		{
 			List<Book> books = ReturnTestData();
 			BookRoot bookRoot = new BookRoot { Books = books };
-			LinqTools.XmlQuery(bookRoot);
+			LinqTools.XmlQuery(books);
 		}
 
 		[TestMethod]

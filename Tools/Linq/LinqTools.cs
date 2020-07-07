@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -41,9 +42,9 @@ namespace Tools.Linq
 			Console.WriteLine(numQuery.Min());
 		}
 
-		public static void XmlQuery<T>(T t)
+		public static void XmlQuery<T>(List<T> t)
 		{
-			string xmlStr = ConvertTools.EntityToXmlString<T>(t);
+			string xmlStr = ConvertTools.EntityToXmlStr<T>(t);
 			StringReader sr = new StringReader(xmlStr);
 			XmlReader xmlReader = XmlReader.Create(sr);
 			Console.WriteLine(xmlStr);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
@@ -44,11 +46,12 @@ namespace Tools.Convert
 
 		/// <summary>
 		///  实体类转xml字符串
+		///  根节点默认ArrayOf+（Entity类名）
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
+		/// <typeparam name="List<T>">实体类列表</typeparam>
 		/// <param name="t"></param>
 		/// <returns></returns>
-		public static string EntityToXmlString<T>(T t)
+		public static string EntityToXmlStr<T>(List<T> t)
 		{
 			XmlSerializer xs = new XmlSerializer(t.GetType());
 
@@ -63,6 +66,28 @@ namespace Tools.Convert
 			string xmlStr = sb.ToString();
 			xw.Close();
 			return xmlStr;
+		}
+
+		public static List<T> JsonArrayStrToEntity<T>(string json)
+		{
+			List<T> list = JsonConvert.DeserializeObject<List<T>>(json);
+			return list;
+		}
+
+		public static string JsonArrayStrToXmlStr<T>(string json)
+		{
+			List<T> list = JsonArrayStrToEntity<T>(json);
+			return EntityToXmlStr<T>(list);
+		}
+
+		public static List<T> XmlStrToEntity<T>(string xmlStr)
+		{
+			return null;
+		}
+
+		public static string DataTableToJsonArrayStr<T>(DataTable table)
+		{
+			return null;
 		}
 	}
 }
