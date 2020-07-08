@@ -48,7 +48,7 @@
     <Compile Include="Linq\LinqTools.cs" />
     <Compile Include="Log\CommonLogger.cs" />
     <Compile Include="Log\GeneralLogger.cs" />
-    <Compile Include="Log\ILoggerFactory.cs" />
+    <Compile Include="Log\LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,7 +61,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Log\GeneralLogConfig.xml" />
+    <Content Include="Log\GeneralLogConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
