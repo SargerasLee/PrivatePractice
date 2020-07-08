@@ -11,7 +11,7 @@ namespace UnitTest
 	public class TestLog
 	{
 		[TestMethod]
-		public void TestMethod1()
+		public void TestLogWithConfig()
 		{
 			XmlDocument document=new XmlDocument();
 			XmlDeclaration declaration = document.CreateXmlDeclaration("1.0", "UTF-8", string.Empty);
