@@ -40,20 +40,20 @@ namespace Tools.Log
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		public GeneralLogger GetInstance(string code)
+		public GeneralLogger GetInstance(string moduleCode)
 		{
-			return GetInstance(code,string.Empty);
+			return GetInstance(moduleCode, string.Empty);
 		}
-		public GeneralLogger GetInstance(string code,string configPath)
+		public GeneralLogger GetInstance(string moduleCode, string configPath)
 		{
 			this.configPath = configPath;
-			if (logDict.ContainsKey(code))
+			if (logDict.ContainsKey(moduleCode))
 			{
-				return logDict[code];
+				return logDict[moduleCode];
 			}
 			else
 			{
-				return Bulid(code);
+				return Bulid(moduleCode);
 			}
 		}
 		private void LoadConfig()
