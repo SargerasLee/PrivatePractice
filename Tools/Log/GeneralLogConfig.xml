@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <Log Code="ZJ" Name="资金日志" FullPath="c:\log\arlog\debug.txt" DatePattern="yyyy-MM-dd" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.GeneralLogger" Print="true">
+    <Text></Text>
+    <JsonArray></JsonArray>
+    <Xml></Xml>
+  </Log>
+  <Log Code="YS" Name="应收日志" FullPath="" DatePattern="yyyy-MM-dd" Assembly="" Class="" Print="true">
+    <Text></Text>
+    <JsonArray></JsonArray>
+    <Xml></Xml>
+  </Log>
+  <Log Code="FY" Name="费用日志" FullPath="" DatePattern="yyyy-MM-dd" Assembly="" Class="" Print="true">
+    <Text></Text>
+    <JsonArray></JsonArray>
+    <Xml></Xml>
+  </Log>
+</Config>
+<!--Code 日志编号，别重复-->
+<!--Name 日志名称，好辨认就行-->
+<!--FullPath 全路径-->
+<!--DatePattern 日期格式-->
+<!--Class 类全限定名-->
+<!--Print 打印标识-->
