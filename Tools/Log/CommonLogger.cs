@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
@@ -13,23 +12,25 @@ namespace Tools.Log
 	{
 		public CommonLogger()
 		{
-			DatePattern = "yyyy-MM-dd";
-			Date = DateTime.Now.ToString(DatePattern);
+			DatePattern = "yyyy-MM-dd";	
 		}
 		public override void Log(params string[] text)
 		{
 			if (!Open) return;
-			DateTime nowTime = DateTime.Now;
-			string time = nowTime.ToShortTimeString();
-			StreamWriter writer = null;
 			StringBuilder sb = new StringBuilder(200);
 			foreach (var s in text)
 			{
 				sb.Append(s);
 				sb.Append("\r\n");
 			}
+			StreamWriter writer = null;
+
+			DateTime nowTime = DateTime.Now;
+			string date = nowTime.ToString(DatePattern);
+			string time = nowTime.ToShortTimeString();
 			try
 			{
+				CreateFileIfNotExists(date);
 				writer = new StreamWriter(FullFilePath, true, Encoding.Default);
 				writer.WriteLine(time + ":    " + sb);
 			}
@@ -56,8 +57,8 @@ namespace Tools.Log
 		public override void Log(string desc, JArray array)
 		{
 			if (!Open) return;
-			string s = JsonConvert.SerializeObject(array, Formatting.Indented);
-			Log(desc, s);
+			string jArrayStr = JsonConvert.SerializeObject(array, Formatting.Indented);
+			Log(desc, jArrayStr);
 		}
 
 		/// <summary>
@@ -68,8 +69,8 @@ namespace Tools.Log
 		public override void Log(string desc, JObject obj)
 		{
 			if (!Open) return;
-			string jStr = JsonConvert.SerializeObject(obj, Formatting.Indented);
-			Log(desc, jStr);
+			string jObjStr = JsonConvert.SerializeObject(obj, Formatting.Indented);
+			Log(desc, jObjStr);
 		}
 
 		/// <summary>
@@ -91,6 +92,15 @@ namespace Tools.Log
 			}
 			string xml = sb.ToString();
 			Log(desc, xml);
+		}
+
+		private void CreateFileIfNotExists(string date)
+		{
+			if (!Directory.Exists(FullFilePath))
+			{
+				Directory.CreateDirectory(FullFilePath);
+			}
+			FullFilePath = FullFilePath + "Log" + date + ".txt";
 		}
 	}
 }

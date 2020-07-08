@@ -24,8 +24,15 @@ namespace UnitTest
 			root.AppendChild(name);
 			root.AppendChild(age);
 			document.AppendChild(root);
-			GeneralLogger logger = LoggerFactory.GetInstance("ZJ");
-			logger.Log("xml", document);
+			LoggerFactory factory = new LoggerFactory();
+			GeneralLogger logger1 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
+			GeneralLogger logger4 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
+			Console.WriteLine(GC.ReferenceEquals(logger1, logger4));
+			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
+			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
+			logger1.Log("xml", document);
+			logger2.Log("xml", document);
+			logger3.Log("xml", document);
 		}
 
 		[TestMethod]
@@ -33,9 +40,10 @@ namespace UnitTest
 		{
 			string json = "[{name:\"lisi\",age:\"30\"},{name:\"xxx\",age:\"66\"}";
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
-			GeneralLogger logger1 = LoggerFactory.GetInstance("ZJ");
-			GeneralLogger logger2 = LoggerFactory.GetInstance("YS");
-			GeneralLogger logger3 = LoggerFactory.GetInstance("FY");
+			LoggerFactory factory = new LoggerFactory();
+			GeneralLogger logger1 = factory.GetInstance("ZJ");
+			GeneralLogger logger2 = factory.GetInstance("YS");
+			GeneralLogger logger3 = factory.GetInstance("FY");
 			logger1.Log("json", jObject);
 			logger2.Log("json", jObject);
 			logger3.Log("json", jObject);

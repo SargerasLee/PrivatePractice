@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace Tools.Log
 {
 	public class LoggerFactory
 	{
-		private static readonly XmlDocument document = new XmlDocument();
-		private static readonly object o=new object();
-		private static string path;
-		private static string className;
-		private static string assembly;
-		private static bool flag;
-		private static XmlNode target;
+		private readonly XmlDocument document = new XmlDocument();
+		private static readonly object o=new object();//公共对象锁
+		private string configPath = string.Empty;//配置文件；路径
+		private string path;//日志路径
+		private string className;
+		private string assembly;
+		private bool flag = true;
+		private XmlNode target;
 		private static Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
 
+		private const string DefaultClass = "Tools.Log.CommonLogger";
+		private const string DefaultAssembly = "Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 		/// <summary>
 		///  建造日志类
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		private static GeneralLogger Bulid(string code)
+		private GeneralLogger Bulid(string code)
 		{
+			//模板方法
 			LoadConfig();
 			GetProperties(code);
-			CreateFileIfNotExists();
 			GeneralLogger logger = GetLogger();
 			SetProperties(ref logger);
 			SetDict(code,ref logger);
@@ -38,52 +36,64 @@ namespace Tools.Log
 		}
 
 		/// <summary>
-		///  获取日志实例，先查找字典，有直接返回，否则建造
+		///  获取日志实例
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		public static GeneralLogger GetInstance(string code)
+		public GeneralLogger GetInstance(string code)
 		{
-			if(logDict.ContainsKey(code))
+			return GetInstance(code,string.Empty);
+		}
+		public GeneralLogger GetInstance(string code,string configPath)
+		{
+			this.configPath = configPath;
+			if (logDict.ContainsKey(code))
 			{
 				return logDict[code];
-			}else
+			}
+			else
 			{
 				return Bulid(code);
 			}
 		}
-		private static void LoadConfig()
+		private void LoadConfig()
 		{
-			document.Load("./Log/GeneralLogConfig.xml");
-		}
-		private static void GetProperties(string code)
-		{
-			target = document.SelectSingleNode("//Log[@Code='" + code + "']");
-			path = target.Attributes["FullPath"].Value;
-			className = target.Attributes["Class"].Value;
-			assembly = target.Attributes["Assembly"].Value;
-			flag = System.Convert.ToBoolean(target.Attributes["Print"].Value);
-		}
-		private static void CreateFileIfNotExists()
-		{
-			if (!Directory.Exists(path))
+			if (!string.IsNullOrWhiteSpace(configPath))
 			{
-				Directory.CreateDirectory(path);
+				document.Load(configPath); 
 			}
 		}
-		private static GeneralLogger GetLogger()
+		private void GetProperties(string code)
+		{
+			if (!string.IsNullOrWhiteSpace(configPath))
+			{
+				target = document.SelectSingleNode("//Log[@Code='" + code + "']");
+				path = target.Attributes["FullPath"].Value;
+				className = target.Attributes["Class"].Value;
+				assembly = target.Attributes["Assembly"].Value;
+				flag = System.Convert.ToBoolean(target.Attributes["Print"].Value); 
+			}
+			else
+			{
+				path = "c:\\Log\\"+code+"\\";
+				className = DefaultClass;
+				assembly = DefaultAssembly;
+			}
+		}
+		
+		private GeneralLogger GetLogger()
 		{
 			Type t = Assembly.Load(assembly).GetType(className);
 			GeneralLogger logger = Activator.CreateInstance(t) as GeneralLogger;
 			return logger;
 		}
 
-		private static void SetProperties(ref GeneralLogger logger)
+		private void SetProperties(ref GeneralLogger logger)
 		{
-			logger.FullFilePath = path + "Log" + logger.Date + ".txt";
+			logger.FullFilePath = path;
 			logger.Open = flag;
 		}
-		private static void SetDict(string code,ref GeneralLogger logger)
+		private void SetDict(string code,ref GeneralLogger logger)
 		{
 			if (!logDict.ContainsKey(code))
 			{
@@ -93,13 +103,9 @@ namespace Tools.Log
 					{
 						logDict.Add(code, logger); 
 					}
-					else
-					{
-						int g = GC.GetGeneration(logger);
-						GC.Collect(g);
-					}
 				} 
 			}
 		}
+
 	}
 }
