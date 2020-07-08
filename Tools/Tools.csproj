@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="Convert\ConvertTools.cs" />
     <Compile Include="Linq\LinqTools.cs" />
+    <Compile Include="Log\CommonLogger.cs" />
     <Compile Include="Log\GeneralLogger.cs" />
-    <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\ILoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

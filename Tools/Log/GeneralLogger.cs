@@ -28,41 +28,33 @@ namespace Tools.Log
 	/// <summary>
 	/// 日志类
 	/// </summary>
-	public class GeneralLogger : ILogger
+	public abstract class GeneralLogger
 	{
-		public string FormatPattern { get; set; }
+		public string DatePattern { get; set; }
 		public bool Open{ set; get; }
 		public string FullFilePath{ set; get; }
 
-		private string Date = string.Empty;
-		private string LogCode = string.Empty;
+		public string Date{ set; get; }
+		public string LogCode { set; get; }
 
-		public GeneralLogger(string code,string datePattern)
+		public GeneralLogger()
 		{
-			LogCode = code;
-			Open = true;
-			Date = DateTime.Now.ToString(datePattern);
 		}
-		/// <summary>
-		/// 通用日志
-		/// </summary>
-		/// <param name="disk">盘符,根据实际情况</param>
-		/// <param name="basePath">盘符下第一级目录</param>
-		/// <param name="path">第二级目录</param>
-		/// <param name="text">打印文本数组</param>
-		public void Log(string disk, string basePath, string path, params string[] text)
+
+		public void CreateFileIfNotExists()
 		{
-			if (!Open) return;
+			if (!Directory.Exists(FullFilePath))
+			{
+				Directory.CreateDirectory(FullFilePath);
+			}
+		}
+
+		public void Log(params string[] text)
+		{
 			DateTime nowTime = DateTime.Now;
 			string time = nowTime.ToShortTimeString();
 			string date = nowTime.ToString("yyyy-MM-dd");
 			string filePath = "{0}:\\{1}\\{2}\\";
-			filePath = string.Format(filePath, disk, basePath, path);
-			if (!Directory.Exists(filePath))
-			{
-				Directory.CreateDirectory(filePath);
-			}
-
 			filePath += $"Debug_{date}.txt";
 			StreamWriter writer = null;
 			StringBuilder sb = new StringBuilder(50);
@@ -90,18 +82,6 @@ namespace Tools.Log
 					writer.Dispose();
 				}
 			}
-		}
-
-		/// <summary>
-		/// 应收日志  路径采用默认
-		/// </summary>
-		/// <param name="text">打印文本数组</param>
-		public void Log(params string[] text)
-		{
-			string disk = "C";
-			string basePath = "Log";
-			string path = "ARLog";
-			Log(disk, basePath, path, text);
 		}
 
 		/// <summary>
@@ -140,24 +120,8 @@ namespace Tools.Log
 				document.WriteTo(writer);
 				writer.Close();
 			}
-
 			string xml = sb.ToString();
 			Log(xml);
-		}
-
-		public void Debug(params object[] objs)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Info(params object[] objs)
-		{
-			throw new NotImplementedException();
-		}
-
-		public void Error(params object[] objs)
-		{
-			throw new NotImplementedException();
 		}
 	}
 }
