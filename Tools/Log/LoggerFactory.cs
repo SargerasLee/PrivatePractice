@@ -84,6 +84,7 @@ namespace Tools.Log
 		private GeneralLogger GetLogger()
 		{
 			Type t = Assembly.Load(assembly).GetType(className);
+			//GeneralLogger logger = Assembly.Load(assembly).CreateInstance(className) as GeneralLogger;
 			GeneralLogger logger = Activator.CreateInstance(t) as GeneralLogger;
 			return logger;
 		}
