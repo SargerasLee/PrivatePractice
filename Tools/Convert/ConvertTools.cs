@@ -51,7 +51,7 @@ namespace Tools.Convert
 		/// <param name="prefix">前缀</param>
 		/// <param name="settings">xmlsetting</param>
 		/// <returns></returns>
-		public static string EntityToXmlStr<T>(List<T> t,string prefix,string nameSpace,XmlWriterSettings settings)
+		public static string EntityToXmlStr<T>(T t,string prefix,string nameSpace,XmlWriterSettings settings)
 		{
 			XmlSerializer xs = new XmlSerializer(t.GetType());
 
@@ -82,21 +82,21 @@ namespace Tools.Convert
 			return EntityToXmlStr(list, string.Empty, string.Empty, null);
 		}
 
-		public static List<T> XmlStrToEntity<T>(string xmlStr)
+		public static T XmlStrToEntity<T>(string xmlStr)
 		{
 			XmlDocument xmlDoc = new XmlDocument();
 			xmlDoc.LoadXml(xmlStr);
 			StringReader sr = new StringReader(xmlStr);
 			XmlReader xr = XmlReader.Create(sr);
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
-			List<T> list = null;
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
+			T t;
 			if (xmlSerializer.CanDeserialize(xr))
 			{
-				list = xmlSerializer.Deserialize(xr) as List<T>;
+				t = (T)xmlSerializer.Deserialize(xr);
 			}
 			else
 				throw new XmlException("该xml字符串不能被序列化");
-			return list;
+			return t;
 		}
 
 		public static string EntityToJsonArrayStr<T>(List<T> list) 

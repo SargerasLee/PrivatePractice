@@ -15,8 +15,8 @@ namespace UnitTest
 		public void TestXmlQuery()
 		{
 			List<Book> books = TestData.ListData();
-			//BookRoot bookRoot = new BookRoot { Books = books };
-			LinqTools.XmlQuery(books);
+			BookRoot bookRoot = new BookRoot { Books = books };
+			LinqTools.XmlQuery(bookRoot);
 		}
 	}
 }

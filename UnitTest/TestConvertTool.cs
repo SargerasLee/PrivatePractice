@@ -14,10 +14,11 @@ namespace UnitTest
 		public void TestXmlToEntityToXml()
 		{
 			List<Book> list = TestData.ListData();
-			string xml = ConvertTools.EntityToXmlStr(list, string.Empty, string.Empty, null);
+			BookRoot books = new BookRoot { Books = list };
+			string xml = ConvertTools.EntityToXmlStr(books, string.Empty, string.Empty, null);
 			Console.WriteLine(xml);
-			List<Book> l = ConvertTools.XmlStrToEntity<Book>(xml);
-			Console.WriteLine(l[0].ToString());
+			BookRoot l = ConvertTools.XmlStrToEntity<BookRoot>(xml);
+			Console.WriteLine(l.Books[0].ToString());
 		}
 
 		[TestMethod]

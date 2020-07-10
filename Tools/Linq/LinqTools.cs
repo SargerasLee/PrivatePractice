@@ -42,7 +42,7 @@ namespace Tools.Linq
 			Console.WriteLine(numQuery.Min());
 		}
 
-		public static void XmlQuery<T>(List<T> t)
+		public static void XmlQuery<T>(T t)
 		{
 			string xmlStr = ConvertTools.EntityToXmlStr<T>(t, string.Empty, string.Empty, null);
 			StringReader sr = new StringReader(xmlStr);
