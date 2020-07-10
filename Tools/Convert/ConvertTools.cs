@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -70,15 +69,15 @@ namespace Tools.Convert
 			return sb.ToString();
 		}
 
-		public static List<T> JsonArrayStrToEntity<T>(string json)
+		public static T JsonArrayStrToEntity<T>(string json)
 		{
-			List<T> list = JsonConvert.DeserializeObject<List<T>>(json);
+			T list = JsonConvert.DeserializeObject<T>(json);
 			return list;
 		}
 
 		public static string JsonArrayStrToXmlStr<T>(string json)
 		{
-			List<T> list = JsonArrayStrToEntity<T>(json);
+			T list = JsonArrayStrToEntity<T>(json);
 			return EntityToXmlStr(list, string.Empty, string.Empty, null);
 		}
 
@@ -99,7 +98,7 @@ namespace Tools.Convert
 			return t;
 		}
 
-		public static string EntityToJsonArrayStr<T>(List<T> list) 
+		public static string EntityToJsonArrayStr<T>(T list) 
 		{
 			return JsonConvert.SerializeObject(list);
 		}
