@@ -14,41 +14,9 @@ namespace UnitTest
 		[TestMethod]
 		public void TestXmlQuery()
 		{
-			List<Book> books = ReturnTestData();
-			BookRoot bookRoot = new BookRoot { Books = books };
+			List<Book> books = TestData.ListData();
+			//BookRoot bookRoot = new BookRoot { Books = books };
 			LinqTools.XmlQuery(books);
-		}
-
-		[TestMethod]
-		public void TestDataTableQuery()
-		{
-			List<Book> books = ReturnTestData();
-			DataTable data = ConvertTools.ListToDataTable(books);
-			foreach(DataRow row in data.Rows)
-			{
-				foreach(var obj in row.ItemArray)
-				{
-					Console.WriteLine(obj+"	");
-				}
-				Console.WriteLine();
-			}
-		}
-
-
-
-
-
-
-
-		private List<Book> ReturnTestData()
-		{
-			List<Book> books = new List<Book>{
-				new Book{BookCode=1,Author="zhangsan",BookName="Oracle Programing",IsSuit=false,Price=19.9m,PublishDate=DateTime.Now.AddDays(-12) },
-				new Book{BookCode=2,Author="lisi",BookName="Thinking in Java",IsSuit=false,Price=79.9m,PublishDate=DateTime.Now.AddDays(-1) },
-				new Book{BookCode=3,Author="wangwu",BookName="Thinking in C#",IsSuit=true,Price=55.2m,PublishDate=DateTime.Now.AddDays(-20) },
-				new Book{BookCode=4,Author="maliu",BookName="Javascript Programing",IsSuit=false,Price=39.9m,PublishDate=DateTime.Now.AddDays(-100) },
-			};
-			return books;
 		}
 	}
 }

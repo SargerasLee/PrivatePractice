@@ -22,6 +22,11 @@ namespace Entity
 		public DateTime PublishDate{ set; get; }
 		[XmlElement("IsSuit")]
 		public bool IsSuit{ set; get; }
+
+		public override string ToString()
+		{
+			return "[" + BookCode + "," + BookName + "," + Author + "," + Price + "," + PublishDate + "," + IsSuit + "]";
+		}
 	}
 
 	[XmlRoot("BookRoot")]

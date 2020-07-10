@@ -27,7 +27,7 @@ namespace UnitTest
 			LoggerFactory factory = new LoggerFactory();
 			GeneralLogger logger1 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
 			GeneralLogger logger4 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
-			Console.WriteLine(GC.ReferenceEquals(logger1, logger4));
+			Console.WriteLine(ReferenceEquals(logger1, logger4));
 			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
 			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
 			logger1.Log("xml", document);
@@ -38,7 +38,7 @@ namespace UnitTest
 		[TestMethod]
 		public void TestJson()
 		{
-			string json = "[{name:\"lisi\",age:\"30\"},{name:\"xxx\",age:\"66\"}";
+			string json = TestData.JsonArrayData();
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
 			LoggerFactory factory = new LoggerFactory();
 			GeneralLogger logger1 = factory.GetInstance("ZJ");

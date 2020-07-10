@@ -56,12 +56,14 @@
   <ItemGroup>
     <Compile Include="TestCalc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData.cs" />
     <Compile Include="TestMaze.cs" />
     <Compile Include="TestSort.cs" />
     <Compile Include="TestLog.cs" />
     <Compile Include="TestMapSearch.cs" />
     <Compile Include="TestDesignPattern.cs" />
     <Compile Include="TestLinq.cs" />
+    <Compile Include="TestConvertTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

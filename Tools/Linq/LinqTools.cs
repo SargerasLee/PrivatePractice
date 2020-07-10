@@ -44,7 +44,7 @@ namespace Tools.Linq
 
 		public static void XmlQuery<T>(List<T> t)
 		{
-			string xmlStr = ConvertTools.EntityToXmlStr<T>(t);
+			string xmlStr = ConvertTools.EntityToXmlStr<T>(t, string.Empty, string.Empty, null);
 			StringReader sr = new StringReader(xmlStr);
 			XmlReader xmlReader = XmlReader.Create(sr);
 			Console.WriteLine(xmlStr);

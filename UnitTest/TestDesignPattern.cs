@@ -42,10 +42,11 @@ namespace UnitTest
 		public void TestSingleton()
 		{
 			Database db1 = Database.GetInstance();
+			Database db2 = Database.GetInstance();
+			Database db3 = Database.GetInstance();
 			db1.Update();
-			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
-			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
-			Console.WriteLine(MemoryUtil.GetMemory(Database.GetInstance()));
+			Console.WriteLine(ReferenceEquals(db1, db2));
+			Console.WriteLine(ReferenceEquals(db2, db3));
 		}
 
 		[TestMethod]

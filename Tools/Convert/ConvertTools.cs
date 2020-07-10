@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -13,7 +14,7 @@ namespace Tools.Convert
 	public class ConvertTools
 	{
 		/// <summary>
-		/// 列表转datatable，泛型T为实体类，只写公共属性，别写字段 例如public string Name{set;get;}
+		/// 列表转datatable，泛型T为实体类，只写公共属性，例如   public string Name{set;get;}
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="list"></param>
@@ -21,17 +22,13 @@ namespace Tools.Convert
 		public static DataTable ListToDataTable<T>(List<T> list)
 		{
 			Type t = typeof(T);
-			Console.WriteLine(t.Name);
 			DataTable table = new DataTable(t.Name);
 			DataRowCollection collection = table.Rows;
 			PropertyInfo[] infos = t.GetProperties();
-			Console.WriteLine(infos.Length);
 			foreach (var info in infos)
 			{
 				table.Columns.Add(info.Name, info.PropertyType);
-				Console.Write(info.Name + "	");
 			}
-			Console.WriteLine();
 			foreach (var item in list)
 			{
 				DataRow row = table.NewRow();
@@ -48,24 +45,29 @@ namespace Tools.Convert
 		///  实体类转xml字符串
 		///  根节点默认ArrayOf+（Entity类名）
 		/// </summary>
-		/// <typeparam name="List<T>">实体类列表</typeparam>
-		/// <param name="t"></param>
+		/// <param name="t">实体类列表</param>
+		/// <param name="encoding">序列化时的编码</param>
+		/// <param name="nameSpace">名称空间</param>
+		/// <param name="prefix">前缀</param>
+		/// <param name="settings">xmlsetting</param>
 		/// <returns></returns>
-		public static string EntityToXmlStr<T>(List<T> t)
+		public static string EntityToXmlStr<T>(List<T> t,string prefix,string nameSpace,XmlWriterSettings settings)
 		{
 			XmlSerializer xs = new XmlSerializer(t.GetType());
 
-			StringBuilder sb = new StringBuilder();
-			XmlWriter xw = XmlWriter.Create(sb, new XmlWriterSettings
-			{ Encoding = Encoding.UTF8, Indent = true, IndentChars = "	", NewLineChars = "\r\n" });
-
 			XmlSerializerNamespaces xsn = new XmlSerializerNamespaces();
-			xsn.Add(string.Empty, string.Empty);//命名空间置空
-			xs.Serialize(xw, t, xsn);
+			xsn.Add(prefix, nameSpace);//命名空间置空
 
-			string xmlStr = sb.ToString();
-			xw.Close();
-			return xmlStr;
+			if (settings == null)
+				settings = new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = true, IndentChars = "	", NewLineChars = "\r\n" };
+			
+			StringBuilder sb = new StringBuilder();
+			
+			using (XmlWriter xw = XmlWriter.Create(sb, settings))
+			{
+				xs.Serialize(xw, t, xsn);
+			}
+			return sb.ToString();
 		}
 
 		public static List<T> JsonArrayStrToEntity<T>(string json)
@@ -77,17 +79,29 @@ namespace Tools.Convert
 		public static string JsonArrayStrToXmlStr<T>(string json)
 		{
 			List<T> list = JsonArrayStrToEntity<T>(json);
-			return EntityToXmlStr<T>(list);
+			return EntityToXmlStr(list, string.Empty, string.Empty, null);
 		}
 
 		public static List<T> XmlStrToEntity<T>(string xmlStr)
 		{
-			return null;
+			XmlDocument xmlDoc = new XmlDocument();
+			xmlDoc.LoadXml(xmlStr);
+			StringReader sr = new StringReader(xmlStr);
+			XmlReader xr = XmlReader.Create(sr);
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<T>));
+			List<T> list = null;
+			if (xmlSerializer.CanDeserialize(xr))
+			{
+				list = xmlSerializer.Deserialize(xr) as List<T>;
+			}
+			else
+				throw new XmlException("该xml字符串不能被序列化");
+			return list;
 		}
 
-		public static string DataTableToJsonArrayStr<T>(DataTable table)
+		public static string EntityToJsonArrayStr<T>(List<T> list) 
 		{
-			return null;
+			return JsonConvert.SerializeObject(list);
 		}
 	}
 }
