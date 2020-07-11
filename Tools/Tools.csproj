@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Component\ComponentExtension.cs" />
+    <Compile Include="Component\PublicComponent.cs" />
     <Compile Include="Convert\ConvertTools.cs" />
     <Compile Include="Linq\LinqTools.cs" />
     <Compile Include="Log\CommonLogger.cs" />
@@ -65,5 +67,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
