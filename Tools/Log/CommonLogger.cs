@@ -14,6 +14,11 @@ namespace Tools.Log
 		{
 			DatePattern = "yyyy-MM-dd";	
 		}
+
+		/// <summary>
+		/// 通用
+		/// </summary>
+		/// <param name="text"></param>
 		public override void Log(params string[] text)
 		{
 			if (!Open) return;
@@ -30,8 +35,9 @@ namespace Tools.Log
 			string time = nowTime.ToShortTimeString();
 			try
 			{
-				CreateFileIfNotExists(date);
-				writer = new StreamWriter(FullFilePath, true, Encoding.Default);
+				CreateDictIfNotExists();
+				string path = FullFilePath + "Log" + date + ".txt";
+				writer = new StreamWriter(path, true, Encoding.Default);
 				writer.WriteLine(time + ":    " + sb);
 			}
 			catch (Exception e)
@@ -78,9 +84,11 @@ namespace Tools.Log
 		/// </summary>
 		/// <param name="desc"></param>
 		/// <param name="doc"></param>
-		public override void Log(string desc, XmlDocument doc)
+		public override void LogXml(string desc, string xmlStr)
 		{
 			if (!Open) return;
+			XmlDocument doc = new XmlDocument();
+			doc.LoadXml(xmlStr);
 			StringBuilder sb = new StringBuilder();
 			StringWriter sw = new StringWriter(sb);
 			using (XmlTextWriter writer = new XmlTextWriter(sw))
@@ -92,15 +100,6 @@ namespace Tools.Log
 			}
 			string xml = sb.ToString();
 			Log(desc, xml);
-		}
-
-		private void CreateFileIfNotExists(string date)
-		{
-			if (!Directory.Exists(FullFilePath))
-			{
-				Directory.CreateDirectory(FullFilePath);
-			}
-			FullFilePath = FullFilePath + "Log" + date + ".txt";
 		}
 	}
 }

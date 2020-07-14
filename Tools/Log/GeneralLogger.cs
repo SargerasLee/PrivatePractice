@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System.IO;
+using System.Xml;
 using Newtonsoft.Json.Linq;
 
 namespace Tools.Log
@@ -15,6 +16,13 @@ namespace Tools.Log
 		public abstract void Log(params string[] text);
 		public abstract void Log(string desc, JArray array);
 		public abstract void Log(string desc, JObject obj);
-		public abstract void Log(string desc, XmlDocument doc);
+		public abstract void LogXml(string desc, string xmlStr);
+		protected void CreateDictIfNotExists()
+		{
+			if (!Directory.Exists(FullFilePath))
+			{
+				Directory.CreateDirectory(FullFilePath);
+			}
+		}
 	}
 }

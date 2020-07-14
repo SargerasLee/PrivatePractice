@@ -30,9 +30,9 @@ namespace UnitTest
 			Console.WriteLine(ReferenceEquals(logger1, logger4));
 			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
 			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
-			logger1.Log("xml", document);
-			logger2.Log("xml", document);
-			logger3.Log("xml", document);
+			logger1.LogXml("xml", document);
+			logger2.LogXml("xml", document);
+			logger3.LogXml("xml", document);
 		}
 
 		[TestMethod]
