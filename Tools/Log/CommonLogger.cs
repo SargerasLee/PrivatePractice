@@ -22,7 +22,7 @@ namespace Tools.Log
 		public override void Log(params string[] text)
 		{
 			if (!Open) return;
-			StringBuilder sb = new StringBuilder(200);
+			StringBuilder sb = new StringBuilder(2000);
 			foreach (var s in text)
 			{
 				sb.Append(s);
