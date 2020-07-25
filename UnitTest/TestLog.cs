@@ -30,9 +30,9 @@ namespace UnitTest
 			Console.WriteLine(ReferenceEquals(logger1, logger4));
 			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
 			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
-			logger1.LogXml("xml", document);
-			logger2.LogXml("xml", document);
-			logger3.LogXml("xml", document);
+			//logger1.LogXml("xml", document);
+			//logger2.LogXml("xml", document);
+			//logger3.LogXml("xml", document);
 		}
 
 		[TestMethod]
@@ -47,6 +47,12 @@ namespace UnitTest
 			logger1.Log("json", jObject);
 			logger2.Log("json", jObject);
 			logger3.Log("json", jObject);
+		}
+
+		[TestMethod]
+		public void TestConvert()
+		{
+			Console.WriteLine(Convert.ToString(null));
 		}
 	}
 }

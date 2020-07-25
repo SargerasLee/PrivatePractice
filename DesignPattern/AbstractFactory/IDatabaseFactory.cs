@@ -46,7 +46,7 @@ namespace DesignPattern.AbstractFactory
 		User FindUser(int id);
 	}
 
-	public class OracleUser : IUserDB
+	public class OracleUserDB : IUserDB
 	{
 		public User FindUser(int id)
 		{
@@ -60,7 +60,7 @@ namespace DesignPattern.AbstractFactory
 		}
 	}
 
-	public class MySqlUser : IUserDB
+	public class MySqlUserDB : IUserDB
 	{
 		public User FindUser(int id)
 		{
