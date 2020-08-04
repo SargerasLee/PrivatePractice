@@ -12,6 +12,12 @@ namespace UnitTest
 	public class TestLinq
 	{
 		[TestMethod]
+		public void TestSimpleQuery()
+		{
+			LinqTools.SimpleQuery();
+		}
+
+		[TestMethod]
 		public void TestXmlQuery()
 		{
 			List<Book> books = TestData.ListData();

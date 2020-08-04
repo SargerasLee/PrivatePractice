@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace DesignPattern.TemplateMethod
 {
+	/// <summary>
+	/// 游戏AI抽象类，根据难度不同，其实现不同
+	/// </summary>
 	public abstract class GameAI
 	{
+		/// <summary>
+		/// AI的思路（模板方法）
+		/// </summary>
 		public void TakeTurn()
 		{
 			CollectResources();
@@ -20,9 +26,21 @@ namespace DesignPattern.TemplateMethod
 			Attack();
 		}
 
+		/// <summary>
+		/// 收集资源
+		/// </summary>
 		protected abstract void CollectResources();
+		/// <summary>
+		/// 建造建筑
+		/// </summary>
 		protected abstract void BuildStructures();
+		/// <summary>
+		/// 生产军队
+		/// </summary>
 		protected abstract void BuildUnits();
+		/// <summary>
+		/// 攻击指令
+		/// </summary>
 		protected void Attack()
 		{
 			string position = ClosestEnemy();
@@ -31,12 +49,27 @@ namespace DesignPattern.TemplateMethod
 			Thread.Sleep(1000);
 			SendWarriors(position);
 		}
+		/// <summary>
+		/// 派出哨兵
+		/// </summary>
+		/// <param name="position"></param>
 		protected abstract void SendScounts(string position);
+		/// <summary>
+		/// 派出战士
+		/// </summary>
+		/// <param name="position"></param>
 		protected abstract void SendWarriors(string position);
-
+		/// <summary>
+		/// 接近敌人
+		/// </summary>
+		/// <returns></returns>
 		protected abstract string ClosestEnemy();
 	}
 
+
+	/// <summary>
+	/// 异虫AI
+	/// </summary>
 	public class ZergAI : GameAI
 	{
 		protected override void BuildStructures()
@@ -78,6 +111,9 @@ namespace DesignPattern.TemplateMethod
 		}
 	}
 
+	/// <summary>
+	/// 泰伦AI
+	/// </summary>
 	public class TyronAI : GameAI
 	{
 		protected override void BuildStructures()

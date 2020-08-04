@@ -12,6 +12,9 @@ namespace DesignPattern.AbstractFactory
 		IUserDB CreateUserDatabase();
 	}
 
+	/// <summary>
+	/// oracle数据库工厂
+	/// </summary>
 	public class OracleFactory : IDatabaseFactory
 	{
 		public IUserDB CreateUserDatabase()
@@ -24,6 +27,9 @@ namespace DesignPattern.AbstractFactory
 		}
 	}
 
+	/// <summary>
+	/// mysql数据库工厂
+	/// </summary>
 	public class MysqlFactory : IDatabaseFactory
 	{
 		public IUserDB CreateUserDatabase()
