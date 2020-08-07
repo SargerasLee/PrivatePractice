@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Tools.StringUtils
@@ -97,7 +96,7 @@ namespace Tools.StringUtils
 
 		private static int StringSubmit(string s1, string s2)
 		{
-			return Convert.ToInt32(s1) - Convert.ToInt32(s2);
+			return System.Convert.ToInt32(s1) - System.Convert.ToInt32(s2);
 		}
 	}
 }
