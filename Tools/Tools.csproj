@@ -55,6 +55,7 @@
     <Compile Include="Log\CommonLogger.cs" />
     <Compile Include="Log\GeneralLogger.cs" />
     <Compile Include="Log\LoggerFactory.cs" />
+    <Compile Include="StringUtils\StringUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
