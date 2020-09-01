@@ -26,8 +26,12 @@ namespace Tools.API
 		public void GenerateLocalDll(string url,string className,string methodName,string filePath)
 		{
 			WebClient webClient = new WebClient();
+			if(!url.Contains("?WSDL"))
+			{
+				url += "?WSDL";
+			}
 			//从输入的url页面处打开流
-			Stream stream = webClient.OpenRead(url + "?WSDL");
+			Stream stream = webClient.OpenRead(url);
 			//创建wsdl描述类
 			ServiceDescription description = ServiceDescription.Read(stream);
 			if(!Directory.Exists(filePath))
@@ -36,6 +40,7 @@ namespace Tools.API
 			}
 			//判断缓存是否过期,过期删掉，否则不处理
 			DeleteDllIfCaheExpired(filePath,className,methodName);
+			GenerateLocalDll(url, className, methodName, filePath);
 		}
 
 		/// <summary>
