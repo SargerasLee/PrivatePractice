@@ -34,7 +34,7 @@ namespace Logic.Sort
 					break;
 				else
 					flag = false;
-				array.PrintArray();
+				//array.PrintArray();
 			}
 		}
 		#endregion

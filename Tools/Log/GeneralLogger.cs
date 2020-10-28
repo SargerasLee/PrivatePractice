@@ -17,6 +17,8 @@ namespace Tools.Log
 		public abstract void Log(string desc, JArray array);
 		public abstract void Log(string desc, JObject obj);
 		public abstract void LogXml(string desc, string xmlStr);
+
+		public abstract void LogJson(string desc, string jsonStr, bool isArray);
 		protected void CreateDictIfNotExists()
 		{
 			if (!Directory.Exists(FullFilePath))

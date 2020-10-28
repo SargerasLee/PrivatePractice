@@ -79,6 +79,14 @@ namespace Tools.Log
 			Log(desc, jObjStr);
 		}
 
+		public override void LogJson(string desc, string jsonStr, bool isArray)
+		{
+			if (isArray)
+				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JArray);
+			else
+				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JObject);
+		}
+
 		/// <summary>
 		///  xml打印
 		/// </summary>
