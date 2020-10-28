@@ -1,6 +1,6 @@
 ﻿using System;
-using Logic.StringUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Tools.StringUtils;
 
 namespace UnitTest.program
 {

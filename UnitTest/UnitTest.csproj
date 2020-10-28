@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="baseEnhance\WeakRefTest.cs" />
     <Compile Include="program\TestString.cs" />
     <Compile Include="program\TestConfig.cs" />
     <Compile Include="TestCalc.cs" />
