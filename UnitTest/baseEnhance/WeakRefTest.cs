@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest.baseEnhance
@@ -38,10 +39,16 @@ namespace UnitTest.baseEnhance
 		[TestMethod]
 		public void Test2()
 		{
-			
+			Array arr = Array.CreateInstance(typeof(int), 5);
+			arr.SetValue(5, 0);
+			arr.Clone();
+			ArraySegment<int> ass= new ArraySegment<int>((int[])arr,0,3);
 		}
 	}
-
+	struct Ha
+	{
+		int a;
+	}
 	class MyTest
 	{
 		public string Value{ get; set; }

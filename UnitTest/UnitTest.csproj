@@ -52,8 +52,17 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="baseEnhance\IEnumerateTest.cs" />
+    <Compile Include="baseEnhance\TurpleTest.cs" />
+    <Compile Include="baseEnhance\DelegateTest.cs" />
+    <Compile Include="baseEnhance\EventTest.cs" />
+    <Compile Include="baseEnhance\FormatTest.cs" />
+    <Compile Include="baseEnhance\RegexTest.cs" />
+    <Compile Include="baseEnhance\CollectionTest.cs" />
+    <Compile Include="baseEnhance\ThreadTest.cs" />
     <Compile Include="baseEnhance\WeakRefTest.cs" />
     <Compile Include="program\TestString.cs" />
     <Compile Include="program\TestConfig.cs" />
