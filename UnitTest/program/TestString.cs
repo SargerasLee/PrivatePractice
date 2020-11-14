@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Text;
-using Logic.Sort;
+using Logic.StringUtils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tools.StringUtils;
 
