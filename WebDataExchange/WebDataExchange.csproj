@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Import\ExcelImport.js" />
+    <Content Include="pages\page1.aspx" />
     <Content Include="publicDll\Newtonsoft.Json.dll" />
     <Content Include="publicDll\npoi.v2.0.dll" />
     <Content Include="publicDll\npoi.v2.0.ooxml.dll" />
@@ -96,8 +97,16 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enhance\MyModule1.cs" />
     <Compile Include="Import\ExcelImportHandler.ashx.cs">
       <DependentUpon>ExcelImportHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="pages\page1.aspx.cs">
+      <DependentUpon>page1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="pages\page1.aspx.designer.cs">
+      <DependentUpon>page1.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

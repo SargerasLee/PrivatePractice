@@ -50,7 +50,7 @@ namespace Tools.Log
 				if (writer != null)
 				{
 					writer.Close();
-					writer.Dispose();
+					//writer.Dispose();
 				}
 			}
 		}
