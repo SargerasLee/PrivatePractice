@@ -16,6 +16,7 @@ namespace WebDataExchange.pages
 			System.Web.Caching.Cache.NoAbsoluteExpiration, slidingExpiration: 
 			TimeSpan.FromMinutes(30), priority: System.Web.Caching.CacheItemPriority.Normal, 
 			onRemoveCallback: null);
+			string str = ViewState["uu"].ToString();
 		}
 	}
 }
