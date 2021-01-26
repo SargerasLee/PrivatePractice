@@ -13,9 +13,22 @@ namespace Tools.Log
 		private string path;//日志路径
 		private string className;
 		private string assembly;
+		private LogLevel logLevel = LogLevel.ALL;
 		private bool flag = true;
 		private XmlNode target;
 		private static Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
+
+		private static readonly Dictionary<string, LogLevel> levelDict = new Dictionary<string, LogLevel>
+		{
+			{"OFF",LogLevel.OFF },
+			{"FATAL",LogLevel.FATAL },
+			{"ERROR",LogLevel.ERROR },
+			{"WARN",LogLevel.WARN },
+			{"INFO",LogLevel.INFO },
+			{"DEBUG",LogLevel.DEBUG },
+			{"TRACE",LogLevel.TRACE },
+			{"ALL",LogLevel.ALL }
+		};
 
 		private const string DefaultClass = "Tools.Log.CommonLogger";
 		private const string DefaultAssembly = "Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
@@ -42,11 +55,17 @@ namespace Tools.Log
 		/// <returns></returns>
 		public GeneralLogger GetInstance(string moduleCode)
 		{
+			return GetInstance(moduleCode, LogLevel.ALL);
+		}
+
+		public GeneralLogger GetInstance(string moduleCode, LogLevel level)
+		{
+			this.logLevel = level;
 			return GetInstance(moduleCode, string.Empty);
 		}
 		public GeneralLogger GetInstance(string moduleCode, string configPath)
 		{
-			this.configPath = configPath;
+			this.configPath = configPath;	
 			if (logDict.ContainsKey(moduleCode))
 			{
 				return logDict[moduleCode];
@@ -71,11 +90,11 @@ namespace Tools.Log
 				path = target.Attributes["FullPath"].Value;
 				className = target.Attributes["Class"].Value;
 				assembly = target.Attributes["Assembly"].Value;
-				flag = System.Convert.ToBoolean(target.Attributes["Print"].Value); 
+				logLevel = levelDict[target.Attributes["Level"].Value];
 			}
 			else
 			{
-				path = "c:\\Log\\"+code+"\\";
+				path = "d:\\Log\\"+code+"\\";
 				className = DefaultClass;
 				assembly = DefaultAssembly;
 			}
@@ -92,7 +111,8 @@ namespace Tools.Log
 		private void SetProperties(ref GeneralLogger logger)
 		{
 			logger.FullFilePath = path;
-			logger.Open = flag;
+			//logger.Open = flag;
+			logger.Level = logLevel;
 		}
 		private void SetDict(string code,ref GeneralLogger logger)
 		{

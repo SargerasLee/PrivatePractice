@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -12,22 +13,50 @@ namespace Tools.Log
 	public class CommonLogger : GeneralLogger
 	{
 		private readonly object lockObj = new object();
-		private string timePattern;
 		public CommonLogger()
 		{
 			DatePattern = "yyyy-MM-dd";
-			timePattern = "HH : mm : ss : fff";
+			TimePattern = "HH : mm : ss : fff";
 		}
-		public override void Log(params string[] text)
+
+		public override void Debug(params string[] text)
 		{
-			if (!Open) return;
+			if (Level > LogLevel.DEBUG) return;
+			Log(LogLevel.DEBUG, text);
+		}
+
+		public override void Error(string text, Exception ex = null)
+		{
+			if (Level > LogLevel.ERROR) return;
+			if (ex!=null)
+				Log(LogLevel.ERROR, text, ex.Message, ex.StackTrace);
+			else
+				Log(LogLevel.ERROR, text);
+		}
+
+		public override void Info(params string[] text)
+		{
+			if (Level > LogLevel.INFO) return;
+			Log(LogLevel.INFO, text);
+		}
+
+		public override void Warn(params string[] text)
+		{
+			if (Level > LogLevel.WARN) return;
+			Log(LogLevel.WARN, text);
+		}
+
+
+		private void Log(LogLevel level, params string[] text)
+		{
+			if (Level == LogLevel.OFF) return;
 			StringBuilder sb = new StringBuilder(200);
 			foreach (var s in text)
 			{
 				sb.Append(s);
 				sb.Append("\r\n");
 			}
-			StreamWriter writer = null;
+			StreamWriter writer;
 			try
 			{
 				CreateFileIfNotExists();
@@ -39,27 +68,14 @@ namespace Tools.Log
 					string p = FullFilePath + "Log" + date + ".txt";
 					using (writer = new StreamWriter(p, true, Encoding.Default))
 					{
-						string time = DateTime.Now.ToString(timePattern);
-						writer.WriteLine(time + ":    " + sb);
+						string time = DateTime.Now.ToString(TimePattern);
+						writer.WriteLine(time + $":【{ levelDict[level]}】");
+						writer.WriteLine("【进程】：" + Process.GetCurrentProcess().ProcessName);
+						writer.WriteLine("【线程ID】：" + Thread.CurrentThread.ManagedThreadId);
+						writer.WriteLine("【信息】：" + sb);
 						writer.Flush();
 					}
 					Monitor.Exit(lockObj);
-					//if (writers.ContainsKey(date))
-					//{
-					//	if (!File.Exists(p))
-					//		File.Create(p);
-					//	writer = writers[date];
-					//}
-					//else
-					//{					
-					//	writer = new StreamWriter(p, true, Encoding.Default);
-					//	foreach(var i in writers.Keys)
-					//	{
-					//		writers[i].Close();
-					//	}
-					//	writers.Clear();
-					//	writers.Add(date, writer);
-					//}
 				}
 				else
 				{
@@ -70,15 +86,12 @@ namespace Tools.Log
 			catch (Exception e)
 			{
 				string log = "日志方法异常" + e.Message;
-				//throw e;
 			}
-			//finally
-			//{
-			//		if (writer != null)
-			//		{
-			//			writer.Close();
-			//		}
-			//}
+		}
+
+		public override void Log(params string[] text)
+		{
+			Log(LogLevel.ALL, text);
 		}
 
 		/// <summary>
@@ -88,9 +101,8 @@ namespace Tools.Log
 		/// <param name="array"></param>
 		public override void Log(string desc, JArray array)
 		{
-			if (!Open) return;
 			string jArrayStr = JsonConvert.SerializeObject(array, Formatting.Indented);
-			Log(desc, jArrayStr);
+			Log(LogLevel.ALL, desc, jArrayStr);
 		}
 
 		/// <summary>
@@ -100,9 +112,8 @@ namespace Tools.Log
 		/// <param name="obj"></param>
 		public override void Log(string desc, JObject obj)
 		{
-			if (!Open) return;
 			string jObjStr = JsonConvert.SerializeObject(obj, Formatting.Indented);
-			Log(desc, jObjStr);
+			Log(LogLevel.ALL, desc, jObjStr);
 		}
 
 		public override void LogJson(string desc, string jsonStr, bool isArray)
@@ -113,6 +124,11 @@ namespace Tools.Log
 				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JObject);
 		}
 
+		public override void LogObject(object obj)
+		{
+			Log(LogLevel.ALL, JsonConvert.SerializeObject(obj));
+		}
+
 		/// <summary>
 		///  xml打印
 		/// </summary>
@@ -120,7 +136,6 @@ namespace Tools.Log
 		/// <param name="doc"></param>
 		public override void LogXml(string desc, string xmlStr)
 		{
-			if (!Open) return;
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(xmlStr);
 			StringBuilder sb = new StringBuilder();
@@ -133,7 +148,7 @@ namespace Tools.Log
 				doc.WriteTo(writer);
 			}
 			string xml = sb.ToString();
-			Log(desc, xml);
+			Log(LogLevel.ALL, desc, xml);
 		}
 
 		private void CreateFileIfNotExists()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tools.Log;
@@ -41,12 +42,17 @@ namespace UnitTest
 			string json = TestData.JsonArrayData();
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
 			LoggerFactory factory = new LoggerFactory();
-			GeneralLogger logger1 = factory.GetInstance("ZJ");
-			GeneralLogger logger2 = factory.GetInstance("YS");
-			GeneralLogger logger3 = factory.GetInstance("FY");
+			GeneralLogger logger1 = factory.GetInstance("ZJ",LogLevel.ALL);
+			GeneralLogger logger2 = factory.GetInstance("YS",LogLevel.DEBUG);
+			GeneralLogger logger3 = factory.GetInstance("FY",LogLevel.INFO);
 			logger1.Log("json", jObject);
-			logger2.Log("json", jObject);
-			logger3.Log("json", jObject);
+			logger1.Error("我是error1", new Exception("自定义error"));
+			logger1.Info("我是info1");
+			logger1.Debug("我是debug1");
+			logger2.Debug("我是debug2");
+			logger2.Info("我是info2");
+			logger3.Info("我是info3");
+			logger3.Debug("我是debug3");
 		}
 
 		[TestMethod]

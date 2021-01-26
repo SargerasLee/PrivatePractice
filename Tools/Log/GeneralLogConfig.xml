@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Config>
-  <Log Code="ZJ" Name="资金日志" FullPath="c:\log\zjlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Print="true">
+  <Log Code="ZJ" Name="资金日志" FullPath="c:\log\zjlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
     <Text></Text>
     <JsonArray></JsonArray>
     <Xml></Xml>
   </Log>
-  <Log Code="YS" Name="应收日志" FullPath="c:\log\arlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Print="true">
+  <Log Code="YS" Name="应收日志" FullPath="c:\log\arlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
     <Text></Text>
     <JsonArray></JsonArray>
     <Xml></Xml>
   </Log>
-  <Log Code="FY" Name="费用日志" FullPath="c:\log\fylog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Print="true">
+  <Log Code="FY" Name="费用日志" FullPath="c:\log\fylog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
     <Text></Text>
     <JsonArray></JsonArray>
     <Xml></Xml>
