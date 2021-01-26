@@ -51,14 +51,10 @@ namespace Tools.Log
 		/// <summary>
 		///  获取日志实例
 		/// </summary>
-		/// <param name="code"></param>
+		/// <param name="moduleCode"></param>
+		/// 
 		/// <returns></returns>
-		public GeneralLogger GetInstance(string moduleCode)
-		{
-			return GetInstance(moduleCode, LogLevel.ALL);
-		}
-
-		public GeneralLogger GetInstance(string moduleCode, LogLevel level)
+		public GeneralLogger GetInstance(string moduleCode, LogLevel level=LogLevel.ALL)
 		{
 			this.logLevel = level;
 			return GetInstance(moduleCode, string.Empty);
