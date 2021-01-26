@@ -51,8 +51,8 @@ namespace Tools.Log
 		/// <summary>
 		///  获取日志实例
 		/// </summary>
-		/// <param name="moduleCode"></param>
-		/// 
+		/// <param name="moduleCode">模块编号</param>
+		/// <param name="level">可选，日志级别</param>
 		/// <returns></returns>
 		public GeneralLogger GetInstance(string moduleCode, LogLevel level=LogLevel.ALL)
 		{
