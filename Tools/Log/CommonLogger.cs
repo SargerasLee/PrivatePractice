@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -10,49 +11,74 @@ namespace Tools.Log
 {
 	public class CommonLogger : GeneralLogger
 	{
+		private readonly object lockObj = new object();
+		private string timePattern;
 		public CommonLogger()
 		{
-			DatePattern = "yyyy-MM-dd";	
+			DatePattern = "yyyy-MM-dd";
+			timePattern = "HH : mm : ss : fff";
 		}
-
-		/// <summary>
-		/// 通用
-		/// </summary>
-		/// <param name="text"></param>
 		public override void Log(params string[] text)
 		{
 			if (!Open) return;
-			StringBuilder sb = new StringBuilder(2000);
+			StringBuilder sb = new StringBuilder(200);
 			foreach (var s in text)
 			{
 				sb.Append(s);
 				sb.Append("\r\n");
 			}
 			StreamWriter writer = null;
-
-			DateTime nowTime = DateTime.Now;
-			string date = nowTime.ToString(DatePattern);
-			string time = nowTime.ToShortTimeString();
 			try
 			{
-				CreateDictIfNotExists();
-				string path = FullFilePath + "Log" + date + ".txt";
-				writer = new StreamWriter(path, true, Encoding.Default);
-				writer.WriteLine(time + ":    " + sb);
+				CreateFileIfNotExists();
+				bool token = false;
+				Monitor.TryEnter(lockObj, 100, ref token);
+				if (token)
+				{
+					string date = DateTime.Now.ToString(DatePattern);
+					string p = FullFilePath + "Log" + date + ".txt";
+					using (writer = new StreamWriter(p, true, Encoding.Default))
+					{
+						string time = DateTime.Now.ToString(timePattern);
+						writer.WriteLine(time + ":    " + sb);
+						writer.Flush();
+					}
+					Monitor.Exit(lockObj);
+					//if (writers.ContainsKey(date))
+					//{
+					//	if (!File.Exists(p))
+					//		File.Create(p);
+					//	writer = writers[date];
+					//}
+					//else
+					//{					
+					//	writer = new StreamWriter(p, true, Encoding.Default);
+					//	foreach(var i in writers.Keys)
+					//	{
+					//		writers[i].Close();
+					//	}
+					//	writers.Clear();
+					//	writers.Add(date, writer);
+					//}
+				}
+				else
+				{
+					throw new TimeoutException("获得锁超时");
+				}
+
 			}
 			catch (Exception e)
 			{
 				string log = "日志方法异常" + e.Message;
-				throw new Exception(log);
+				//throw e;
 			}
-			finally
-			{
-				if (writer != null)
-				{
-					writer.Close();
-					//writer.Dispose();
-				}
-			}
+			//finally
+			//{
+			//		if (writer != null)
+			//		{
+			//			writer.Close();
+			//		}
+			//}
 		}
 
 		/// <summary>
@@ -108,6 +134,14 @@ namespace Tools.Log
 			}
 			string xml = sb.ToString();
 			Log(desc, xml);
+		}
+
+		private void CreateFileIfNotExists()
+		{
+			if (!Directory.Exists(FullFilePath))
+			{
+				Directory.CreateDirectory(FullFilePath);
+			}
 		}
 	}
 }

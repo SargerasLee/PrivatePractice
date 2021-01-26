@@ -57,6 +57,7 @@
     <Compile Include="Component\ComponentExtension.cs" />
     <Compile Include="Component\PublicComponent.cs" />
     <Compile Include="Convert\ConvertTools.cs" />
+    <Compile Include="GenerateCode\GenerateTool.cs" />
     <Compile Include="GlobalConfig\GlobalConfigMgr.cs" />
     <Compile Include="Linq\LinqTools.cs" />
     <Compile Include="Log\CommonLogger.cs" />
