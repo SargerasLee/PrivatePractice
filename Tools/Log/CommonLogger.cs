@@ -101,8 +101,7 @@ namespace Tools.Log
 		/// <param name="array"></param>
 		public override void Log(string desc, JArray array)
 		{
-			string jArrayStr = JsonConvert.SerializeObject(array, Formatting.Indented);
-			Log(LogLevel.ALL, desc, jArrayStr);
+			Log(LogLevel.ALL, desc, JsonConvert.SerializeObject(array, Formatting.Indented));
 		}
 
 		/// <summary>
@@ -112,8 +111,7 @@ namespace Tools.Log
 		/// <param name="obj"></param>
 		public override void Log(string desc, JObject obj)
 		{
-			string jObjStr = JsonConvert.SerializeObject(obj, Formatting.Indented);
-			Log(LogLevel.ALL, desc, jObjStr);
+			Log(LogLevel.ALL, desc, JsonConvert.SerializeObject(obj, Formatting.Indented));
 		}
 
 		public override void LogJson(string desc, string jsonStr, bool isArray)
@@ -147,8 +145,7 @@ namespace Tools.Log
 				writer.Formatting = System.Xml.Formatting.Indented;
 				doc.WriteTo(writer);
 			}
-			string xml = sb.ToString();
-			Log(LogLevel.ALL, desc, xml);
+			Log(LogLevel.ALL, desc, sb.ToString());
 		}
 
 		private void CreateFileIfNotExists()

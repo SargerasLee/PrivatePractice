@@ -11,7 +11,6 @@ namespace Tools.Log
 	{
 		public string DatePattern { get; set; }
 		public string TimePattern { get; set; }
-		//public bool Open { set; get; }
 		public string FullFilePath { set; get; }
 		public LogLevel Level { set; get; }
 
@@ -31,17 +30,11 @@ namespace Tools.Log
 		public abstract void Log(string desc, JArray array);
 		public abstract void Log(string desc, JObject obj);
 		public abstract void LogXml(string desc, string xmlStr);
-
 		public abstract void LogJson(string desc, string jsonStr, bool isArray);
-
 		public abstract void LogObject(object obj);
-
 		public abstract void Debug(params string[] text);
-
 		public abstract void Info(params string[] text);
-
 		public abstract void Error(string text, Exception ex);
-
 		public abstract void Warn(params string[] text);
 	}
 }

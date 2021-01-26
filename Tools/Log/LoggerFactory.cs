@@ -11,10 +11,9 @@ namespace Tools.Log
 		private static readonly object o=new object();//公共对象锁
 		private string configPath = string.Empty;//配置文件；路径
 		private string path;//日志路径
-		private string className;
-		private string assembly;
-		private LogLevel logLevel = LogLevel.ALL;
-		private bool flag = true;
+		private string className;//类名
+		private string assembly;//程序集
+		private LogLevel logLevel;//日志级别
 		private XmlNode target;
 		private static Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
 
@@ -32,14 +31,14 @@ namespace Tools.Log
 
 		private const string DefaultClass = "Tools.Log.CommonLogger";
 		private const string DefaultAssembly = "Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+
 		/// <summary>
 		///  建造日志类
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
 		private GeneralLogger Bulid(string code)
-		{
-			//模板方法
+		{		
 			LoadConfig();
 			GetProperties(code);
 			GeneralLogger logger = GetLogger();
@@ -56,7 +55,7 @@ namespace Tools.Log
 		/// <returns></returns>
 		public GeneralLogger GetInstance(string moduleCode, LogLevel level=LogLevel.ALL)
 		{
-			this.logLevel = level;
+			logLevel = level;
 			return GetInstance(moduleCode, string.Empty);
 		}
 		public GeneralLogger GetInstance(string moduleCode, string configPath)
@@ -100,16 +99,15 @@ namespace Tools.Log
 		{
 			Type t = Assembly.Load(assembly).GetType(className);
 			//GeneralLogger logger = Assembly.Load(assembly).CreateInstance(className) as GeneralLogger;
-			GeneralLogger logger = Activator.CreateInstance(t) as GeneralLogger;
-			return logger;
+			return Activator.CreateInstance(t) as GeneralLogger;
 		}
 
 		private void SetProperties(ref GeneralLogger logger)
 		{
 			logger.FullFilePath = path;
-			//logger.Open = flag;
 			logger.Level = logLevel;
 		}
+
 		private void SetDict(string code,ref GeneralLogger logger)
 		{
 			if (!logDict.ContainsKey(code))
@@ -123,6 +121,5 @@ namespace Tools.Log
 				} 
 			}
 		}
-
 	}
 }
