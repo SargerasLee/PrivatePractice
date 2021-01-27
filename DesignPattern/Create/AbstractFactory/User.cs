@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DesignPattern.AbstractFactory
+namespace DesignPattern.Create.AbstractFactory
 {
 	/// <summary>
 	/// 实体类

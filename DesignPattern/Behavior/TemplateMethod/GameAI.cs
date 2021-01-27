@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DesignPattern.TemplateMethod
+namespace DesignPattern.Behavior.TemplateMethod
 {
 	/// <summary>
 	/// 游戏AI抽象类，根据难度不同，其实现不同

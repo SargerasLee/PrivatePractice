@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DesignPattern.AbstractFactory
+namespace DesignPattern.Create.AbstractFactory
 {
 	/// <summary>
 	/// 抽象数据库工厂

@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace DesignPattern.Singleton
+namespace DesignPattern.Create.Singleton
 {
 	//[StructLayout(LayoutKind.Sequential)]
 	public class Database
