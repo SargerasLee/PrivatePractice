@@ -1,7 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
-  <properties>
-    <property code="zj" value="interface"/>
-    <property code="fy" value="api"/>
-  </properties>
+  <Modules>
+    <Properties>
+      <Property code="zj" value="interface" name=""/>
+      <Property code="fy" value="api" name=""/>
+      <Property code="jj" value="ww" name=""/>
+    </Properties>
+    <Sqls>
+      <Select id=""></Select><!--id一般填-->
+      <Update id=""></Update>
+      <Delete id=""></Delete>
+      <Insert id=""></Insert>
+      <Sql id=""></Sql>
+    </Sqls>
+  </Modules>
 </Configuration>

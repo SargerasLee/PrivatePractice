@@ -11,7 +11,7 @@ namespace Tools.Log
 	{
 		public string DatePattern { get; set; }
 		public string TimePattern { get; set; }
-		public string FullFilePath { set; get; }
+		public string Directory { set; get; }
 		public LogLevel Level { set; get; }
 
 		protected static readonly Dictionary<LogLevel, string> levelDict = new Dictionary<LogLevel, string>

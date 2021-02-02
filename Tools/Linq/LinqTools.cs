@@ -51,14 +51,14 @@ namespace Tools.Linq
 			StringReader sr = new StringReader(xmlStr);
 			XmlReader xmlReader = XmlReader.Create(sr);
 			Console.WriteLine(xmlStr);
-			var contacts = XElement.Load(xmlReader);
-			XDocument xd = new XDocument("1.0", "utf-8", null);
-			XElement xe = new XElement("Bill", new XAttribute("ID", 1), 
-				new XElement("Class", "Class1", 
-					new XAttribute("ID", 1),
-					new XElement("Class", "Class1", 
-					new XAttribute("ID", 1))
-			));
+			//var contacts = XElement.Load(xmlReader);
+			//XDocument xd = new XDocument("1.0", "utf-8", null);
+			//XElement xe = new XElement("Bill", new XAttribute("ID", 1), 
+			//	new XElement("Class", "Class1", 
+			//		new XAttribute("ID", 1),
+			//		new XElement("Class", "Class1", 
+			//		new XAttribute("ID", 1))
+			//));
 			xmlReader.Close();
 			sr.Close();
 		}

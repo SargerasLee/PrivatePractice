@@ -45,6 +45,9 @@
     <Compile Include="Create\AbstractFactory\User.cs" />
     <Compile Include="Struct\Adapter\Client.cs" />
     <Compile Include="Struct\Adapter\SquarePegAdapter.cs" />
+    <Compile Include="Struct\Bridge\RemoteControl.cs" />
+    <Compile Include="Struct\Composite\ImageEditor.cs" />
+    <Compile Include="Struct\Decorator\DataSourceWrapper.cs" />
     <Compile Include="Struct\Facade\Facade.cs" />
     <Compile Include="Create\FactoryMethod\Operation.cs" />
     <Compile Include="Create\FactoryMethod\OperationFactory.cs" />

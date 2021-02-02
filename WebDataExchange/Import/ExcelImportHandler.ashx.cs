@@ -21,7 +21,7 @@ namespace Genersoft.WEICHAI.FSSC.WebData.Import
         private GeneralLogger logger;
         public ExcelImportHandler() : base()
         {
-            logger = new LoggerFactory().GetInstance("importExcel");
+            logger = new LoggerFactory().GetLogger("importExcel");
         }
         public void ProcessRequest(HttpContext context)
         {

@@ -25,12 +25,12 @@ namespace UnitTest
 			root.AppendChild(name);
 			root.AppendChild(age);
 			document.AppendChild(root);
-			LoggerFactory factory = new LoggerFactory();
-			GeneralLogger logger1 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
-			GeneralLogger logger4 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
+			LoggerFactory factory = LoggerFactory.SingleInstance();
+			GeneralLogger logger1 = factory.GetLogger("ZJ");
+			GeneralLogger logger4 = factory.GetLogger("ZJ");
 			Console.WriteLine(ReferenceEquals(logger1, logger4));
-			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
-			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
+			GeneralLogger logger2 = factory.GetLogger("YS");
+			GeneralLogger logger3 = factory.GetLogger("FY");
 			//logger1.LogXml("xml", document);
 			//logger2.LogXml("xml", document);
 			//logger3.LogXml("xml", document);
@@ -41,10 +41,10 @@ namespace UnitTest
 		{
 			string json = TestData.JsonArrayData();
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
-			LoggerFactory factory = new LoggerFactory();
-			GeneralLogger logger1 = factory.GetInstance("ZJ",LogLevel.ALL);
-			GeneralLogger logger2 = factory.GetInstance("YS",LogLevel.DEBUG);
-			GeneralLogger logger3 = factory.GetInstance("FY",LogLevel.INFO);
+			LoggerFactory factory = LoggerFactory.SingleInstance();
+			GeneralLogger logger1 = factory.GetLogger("ZJ",LogLevel.ALL);
+			GeneralLogger logger2 = factory.GetLogger("YS",LogLevel.DEBUG);
+			GeneralLogger logger3 = factory.GetLogger("FY",LogLevel.INFO);
 			logger1.Log("json", jObject);
 			logger1.Error("我是error1", new Exception("自定义error"));
 			logger1.Info("我是info1");

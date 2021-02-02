@@ -1,5 +1,7 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Xml;
 
@@ -9,14 +11,9 @@ namespace Tools.Log
 	{
 		private readonly XmlDocument document = new XmlDocument();
 		private static readonly object o=new object();//公共对象锁
-		private string configPath = string.Empty;//配置文件；路径
-		private string path;//日志路径
-		private string className;//类名
-		private string assembly;//程序集
-		private LogLevel logLevel;//日志级别
-		private XmlNode target;
-		private static Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
+		private readonly string configPath = string.Empty;//配置文件；路径
 
+		private static readonly Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
 		private static readonly Dictionary<string, LogLevel> levelDict = new Dictionary<string, LogLevel>
 		{
 			{"OFF",LogLevel.OFF },
@@ -32,83 +29,97 @@ namespace Tools.Log
 		private const string DefaultClass = "Tools.Log.CommonLogger";
 		private const string DefaultAssembly = "Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 
+		private static LoggerFactory factory = null;
+
+		private LoggerFactory()
+		{
+			configPath = "Log/GeneralLogConfig.xml";
+			LoadConfig();
+		}
+
+		public static LoggerFactory SingleInstance()
+		{
+			if (factory == null)
+			{
+				lock (o)
+				{
+					if (factory == null)
+					{
+						factory = new LoggerFactory();
+					}					
+				}
+			}
+			return factory;
+		}
 		/// <summary>
 		///  建造日志类
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		private GeneralLogger Bulid(string code)
-		{		
-			LoadConfig();
-			GetProperties(code);
-			GeneralLogger logger = GetLogger();
-			SetProperties(ref logger);
-			SetDict(code,ref logger);
+		private GeneralLogger Bulid(string code, LogLevel level)
+		{
+			Dictionary<string, object> module = GetModuleConfig(code, level);
+			GeneralLogger logger = CreateLogger(module);
+			PutCache(code, logger);
 			return logDict[code];
 		}
 
-		/// <summary>
-		///  获取日志实例
-		/// </summary>
-		/// <param name="moduleCode">模块编号</param>
-		/// <param name="level">可选，日志级别</param>
-		/// <returns></returns>
-		public GeneralLogger GetInstance(string moduleCode, LogLevel level=LogLevel.ALL)
+		public GeneralLogger GetLogger(string moduleCode)
 		{
-			logLevel = level;
-			return GetInstance(moduleCode, string.Empty);
+			return GetLogger(moduleCode, LogLevel.ALL);
 		}
-		public GeneralLogger GetInstance(string moduleCode, string configPath)
+
+		public GeneralLogger GetLogger(string moduleCode, LogLevel level)
 		{
-			this.configPath = configPath;	
 			if (logDict.ContainsKey(moduleCode))
 			{
 				return logDict[moduleCode];
 			}
 			else
 			{
-				return Bulid(moduleCode);
+				return Bulid(moduleCode, level);
 			}
 		}
 		private void LoadConfig()
 		{
-			if (!string.IsNullOrWhiteSpace(configPath))
+			if(File.Exists(configPath))
 			{
-				document.Load(configPath); 
+				document.Load(configPath);
 			}
 		}
-		private void GetProperties(string code)
+		private Dictionary<string, object> GetModuleConfig(string code, LogLevel level)
 		{
-			if (!string.IsNullOrWhiteSpace(configPath))
+			Dictionary<string, object> module = new Dictionary<string, object>(5);
+			if (File.Exists(configPath))
 			{
-				target = document.SelectSingleNode("//Log[@Code='" + code + "']");
-				path = target.Attributes["FullPath"].Value;
-				className = target.Attributes["Class"].Value;
-				assembly = target.Attributes["Assembly"].Value;
-				logLevel = levelDict[target.Attributes["Level"].Value];
+				XmlNode target = document.SelectSingleNode("//Log[@Code='" + code + "']");
+				module["path"] = target.Attributes["FullPath"].Value;
+				module["className"] = target.Attributes["Class"].Value;
+				module["assembly"] = target.Attributes["Assembly"].Value;
+				module["logLevel"] = levelDict[target.Attributes["Level"].Value];
 			}
 			else
 			{
-				path = "d:\\Log\\"+code+"\\";
-				className = DefaultClass;
-				assembly = DefaultAssembly;
+				module["path"] = "d:\\Log\\"+code+"\\";
+				module["className"] = DefaultClass;
+				module["assembly"] = DefaultAssembly;
+				module["logLevel"] = level;
 			}
+			return module;
 		}
 		
-		private GeneralLogger GetLogger()
+		private GeneralLogger CreateLogger(Dictionary<string, object> module)
 		{
-			Type t = Assembly.Load(assembly).GetType(className);
+			Type t = Assembly.Load(module["assembly"].ToString()).GetType(module["className"].ToString());
 			//GeneralLogger logger = Assembly.Load(assembly).CreateInstance(className) as GeneralLogger;
-			return Activator.CreateInstance(t) as GeneralLogger;
+			GeneralLogger logger = Activator.CreateInstance(t) as GeneralLogger;
+			logger.Directory = module["path"].ToString();
+			logger.Level = (LogLevel)module["logLevel"];
+			return logger;
 		}
 
-		private void SetProperties(ref GeneralLogger logger)
-		{
-			logger.FullFilePath = path;
-			logger.Level = logLevel;
-		}
 
-		private void SetDict(string code,ref GeneralLogger logger)
+		private void PutCache(string code,GeneralLogger logger)
 		{
 			if (!logDict.ContainsKey(code))
 			{
@@ -116,7 +127,7 @@ namespace Tools.Log
 				{
 					if (!logDict.ContainsKey(code))
 					{
-						logDict.Add(code, logger); 
+						logDict.Add(code, logger);
 					}
 				} 
 			}
