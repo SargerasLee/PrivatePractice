@@ -21,6 +21,22 @@ namespace UnitTest.baseEnhance
 		{
 			TransactionInformation info = Transaction.Current.TransactionInformation;
 		}
+
+		[TestMethod]
+		public void TestScopeTran()
+		{
+			using(var scope=new TransactionScope())
+			{
+				Transaction.Current.TransactionCompleted += CurCompleted;
+				scope.Complete();
+				
+			}
+		}
+
+		private void CurCompleted(object sender, TransactionEventArgs e)
+		{
+			Console.WriteLine(e.Transaction.TransactionInformation.LocalIdentifier);
+		}
 	}
 
 	[Transaction(TransactionOption.Required)]
@@ -44,6 +60,29 @@ namespace UnitTest.baseEnhance
 			{
 				transaction.Rollback();
 			}
+		}
+	}
+
+	class MyResourceManager : IEnlistmentNotification
+	{
+		public void Commit(Enlistment enlistment)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void InDoubt(Enlistment enlistment)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Prepare(PreparingEnlistment preparingEnlistment)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Rollback(Enlistment enlistment)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
