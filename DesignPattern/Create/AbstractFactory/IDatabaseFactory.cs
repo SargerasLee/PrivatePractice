@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DesignPattern.AbstractFactory
+namespace DesignPattern.Create.AbstractFactory
 {
 	/// <summary>
 	/// 抽象数据库工厂
@@ -19,7 +19,7 @@ namespace DesignPattern.AbstractFactory
 	{
 		public IUserDB CreateUserDatabase()
 		{
-			string s = "DesignPattern.AbstractFactory.OracleUser";
+			string s = "DesignPattern.Create.AbstractFactory.OracleUserDB";
 			Type t = Type.GetType(s);
 			return (IUserDB)Activator.CreateInstance(t);
 			//return new OracleUser();
@@ -34,7 +34,7 @@ namespace DesignPattern.AbstractFactory
 	{
 		public IUserDB CreateUserDatabase()
 		{
-			string s = "DesignPattern.AbstractFactory.MySqlUser";
+			string s = "DesignPattern.AbstractFactory.Create.MySqlUserDB";
 			Type t = Type.GetType(s);
 			return (IUserDB)Activator.CreateInstance(t);
 		}

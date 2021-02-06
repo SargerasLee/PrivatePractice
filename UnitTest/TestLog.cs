@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Tools.Log;
@@ -24,12 +25,12 @@ namespace UnitTest
 			root.AppendChild(name);
 			root.AppendChild(age);
 			document.AppendChild(root);
-			LoggerFactory factory = new LoggerFactory();
-			GeneralLogger logger1 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
-			GeneralLogger logger4 = factory.GetInstance("ZJ", "./Log/GeneralLogConfig.xml");
+			LoggerFactory factory = LoggerFactory.SingleInstance();
+			GeneralLogger logger1 = factory.GetLogger("ZJ");
+			GeneralLogger logger4 = factory.GetLogger("ZJ");
 			Console.WriteLine(ReferenceEquals(logger1, logger4));
-			GeneralLogger logger2 = factory.GetInstance("YS", "./Log/GeneralLogConfig.xml");
-			GeneralLogger logger3 = factory.GetInstance("FY", "./Log/GeneralLogConfig.xml");
+			GeneralLogger logger2 = factory.GetLogger("YS");
+			GeneralLogger logger3 = factory.GetLogger("FY");
 			//logger1.LogXml("xml", document);
 			//logger2.LogXml("xml", document);
 			//logger3.LogXml("xml", document);
@@ -40,13 +41,18 @@ namespace UnitTest
 		{
 			string json = TestData.JsonArrayData();
 			JArray jObject = JsonConvert.DeserializeObject(json) as JArray;
-			LoggerFactory factory = new LoggerFactory();
-			GeneralLogger logger1 = factory.GetInstance("ZJ");
-			GeneralLogger logger2 = factory.GetInstance("YS");
-			GeneralLogger logger3 = factory.GetInstance("FY");
+			LoggerFactory factory = LoggerFactory.SingleInstance();
+			GeneralLogger logger1 = factory.GetLogger("ZJ",LogLevel.ALL);
+			GeneralLogger logger2 = factory.GetLogger("YS",LogLevel.DEBUG);
+			GeneralLogger logger3 = factory.GetLogger("FY",LogLevel.INFO);
 			logger1.Log("json", jObject);
-			logger2.Log("json", jObject);
-			logger3.Log("json", jObject);
+			logger1.Error("我是error1", new Exception("自定义error"));
+			logger1.Info("我是info1");
+			logger1.Debug("我是debug1");
+			logger2.Debug("我是debug2");
+			logger2.Info("我是info2");
+			logger3.Info("我是info3");
+			logger3.Debug("我是debug3");
 		}
 
 		[TestMethod]

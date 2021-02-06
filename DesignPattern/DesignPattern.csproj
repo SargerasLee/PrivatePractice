@@ -41,19 +41,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractFactory\IDatabaseFactory.cs" />
-    <Compile Include="AbstractFactory\User.cs" />
-    <Compile Include="Facade\Facade.cs" />
-    <Compile Include="FactoryMethod\Operation.cs" />
-    <Compile Include="FactoryMethod\OperationFactory.cs" />
+    <Compile Include="Create\AbstractFactory\IDatabaseFactory.cs" />
+    <Compile Include="Create\AbstractFactory\User.cs" />
+    <Compile Include="Struct\Adapter\Client.cs" />
+    <Compile Include="Struct\Adapter\SquarePegAdapter.cs" />
+    <Compile Include="Struct\Bridge\RemoteControl.cs" />
+    <Compile Include="Struct\Composite\ImageEditor.cs" />
+    <Compile Include="Struct\Decorator\DataSourceWrapper.cs" />
+    <Compile Include="Struct\Facade\Facade.cs" />
+    <Compile Include="Create\FactoryMethod\Operation.cs" />
+    <Compile Include="Create\FactoryMethod\OperationFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimpleFactory\Operation.cs" />
-    <Compile Include="SimpleFactory\OperationFactory.cs" />
-    <Compile Include="Singleton\Database.cs" />
-    <Compile Include="TemplateMethod\GameAI.cs" />
+    <Compile Include="Create\SimpleFactory\Operation.cs" />
+    <Compile Include="Create\SimpleFactory\OperationFactory.cs" />
+    <Compile Include="Create\Singleton\Database.cs" />
+    <Compile Include="Behavior\TemplateMethod\GameAI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Strategy\" />
+    <Folder Include="Behavior\Strategy\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Entity\Entity.csproj">

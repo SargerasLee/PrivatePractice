@@ -9,8 +9,8 @@ namespace UnitTest.program
 		[TestMethod]
 		public void TestMethod1()
 		{
-			string zj = GlobalConfigMgr.GetProperty("zj");
-			string fy = GlobalConfigMgr.GetProperty("fy");
+			string zj = ProjectConfigContainer.GetProperty("zj");
+			string fy = ProjectConfigContainer.GetProperty("fy");
 			Console.WriteLine(zj);
 			Console.WriteLine(fy);
 		}

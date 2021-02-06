@@ -1,12 +1,15 @@
 ﻿using System;
-using DesignPattern.AbstractFactory;
-using DesignPattern.Facade;
-using DesignPattern.FactoryMethod;
-using DesignPattern.Singleton;
-using DesignPattern.TemplateMethod;
+using System.Collections.Generic;
+using DesignPattern.Behavior.TemplateMethod;
+using DesignPattern.Create.AbstractFactory;
+using DesignPattern.Create.FactoryMethod;
+using DesignPattern.Create.Singleton;
+using DesignPattern.Struct.Composite;
+using DesignPattern.Struct.Decorator;
+using DesignPattern.Struct.Facade;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OperationFM = DesignPattern.FactoryMethod.Operation;
-using OperationSF = DesignPattern.SimpleFactory.Operation;
+using OperationFM = DesignPattern.Create.FactoryMethod.Operation;
+using OperationSF = DesignPattern.Create.SimpleFactory.Operation;
 
 namespace UnitTest
 {
@@ -16,7 +19,7 @@ namespace UnitTest
 		[TestMethod]
 		public void TestSimpleFactory()
 		{
-			OperationSF op = DesignPattern.SimpleFactory.OperationFactory.CreateInstance("+");
+			OperationSF op = DesignPattern.Create.SimpleFactory.OperationFactory.CreateInstance("+");
 			op.NumA = 2.2;
 			op.NumB = 3.3;
 			double res = op.GetResult();
@@ -73,6 +76,26 @@ namespace UnitTest
 			IDatabaseFactory factory = new OracleFactory();
 			IUserDB userdao = factory.CreateUserDatabase();
 			Console.WriteLine(userdao);
+		}
+
+		[TestMethod]
+		public void TestComposite()
+		{
+			ImageEditor editor = new ImageEditor();
+			editor.Load();
+			List<IGraphic> list = new List<IGraphic>();
+			list.Add(new CompoundGraphic());
+			list.Add(new Dot(1.0,2.0));
+			list.Add(new Circle(5.0, 5.0, 5.0));
+			editor.GroupSelected(list);
+		}
+
+		[TestMethod]
+		public void TestWrapper()
+		{
+			CompressionWrapper wrapper = new CompressionWrapper(new FileDataSource());
+			wrapper.ReadData();
+			wrapper.WriteData(new byte[1024]);
 		}
 	}
 }

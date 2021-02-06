@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -38,6 +39,46 @@ namespace Tools.Convert
 				collection.Add(row);
 			}
 			return table;
+		}
+
+		/// <summary>
+		/// dataset转列表
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="table"></param>
+		/// <returns></returns>
+		public static List<T> DataTableToList<T>(DataTable table)
+		{
+			List<T> list = new List<T>();
+			Type type = typeof(T);
+			PropertyInfo[] pInfo = type.GetProperties();
+			List<PropertyInfo> info = pInfo.ToList();
+			foreach (DataRow row in table.Rows)
+			{
+				T t = Activator.CreateInstance<T>();
+				for (int i = 0; i < table.Columns.Count; i++)
+				{
+					PropertyInfo pi = info.Find(p => p.Name == table.Columns[i].ColumnName);
+					if (pi.PropertyType == typeof(string))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? "" : System.Convert.ToString(row[i]));
+					else if (pi.PropertyType == typeof(int))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? 0 : System.Convert.ToInt32(row[i]));
+					else if (pi.PropertyType == typeof(decimal))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? 0m : System.Convert.ToDecimal(row[i]));
+					else if (pi.PropertyType == typeof(bool))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? false : System.Convert.ToBoolean(row[i]));
+					else if (pi.PropertyType == typeof(double))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? 0d : System.Convert.ToDouble(row[i]));
+					else if (pi.PropertyType == typeof(byte))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? 0 : System.Convert.ToByte(row[i]));
+					else if (pi.PropertyType == typeof(char))
+						pi.SetValue(t, row[i] is DBNull | row[i] is null ? '\0' : System.Convert.ToChar(row[i]));
+					else
+						pi.SetValue(t, row[i] is DBNull ? null : row[i]);
+				}
+				list.Add(t);
+			}
+			return list;
 		}
 
 		/// <summary>

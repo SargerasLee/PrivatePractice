@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DesignPattern.SimpleFactory
+namespace DesignPattern.Create.SimpleFactory
 {
 	public class OperationFactory
 	{

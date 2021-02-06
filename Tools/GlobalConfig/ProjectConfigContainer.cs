@@ -8,20 +8,17 @@ using Tools.Log;
 
 namespace Tools.GlobalConfig
 {
-	public sealed class GlobalConfigMgr
+	public static class ProjectConfigContainer
 	{
 		private static Dictionary<string, string> properties = new Dictionary<string, string>();
 		private static readonly object obj = new object();
 		private static bool flag = false;
-		static GlobalConfigMgr()
+		static ProjectConfigContainer()
 		{
-			new LoggerFactory().GetInstance("test").Log("静态构造函数执行了");
-			XmlDocument xd = new XmlDocument();
-			xd.Load("GlobalConfig/GlobalConfig.xml");
-			FillTable(ref xd);
+			Load();
 		}
 
-		private static void FillTable(ref XmlDocument xd)
+		private static void Load()
 		{
 			if (!flag)
 			{
@@ -29,7 +26,9 @@ namespace Tools.GlobalConfig
 				{
 					if (!flag)
 					{
-						XmlNodeList list = xd.SelectNodes("Configuration/properties/property");
+						XmlDocument xd = new XmlDocument();
+						xd.Load("GlobalConfig/GlobalConfig.xml");
+						XmlNodeList list = xd.SelectNodes("/Configuration/Modules/Properties/Property");
 						foreach (XmlNode item in list)
 						{
 							properties.Add(item.Attributes["code"].Value, item.Attributes["value"].Value);

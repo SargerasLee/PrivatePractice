@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Xml;
 using Formatting = Newtonsoft.Json.Formatting;
 
@@ -10,49 +12,87 @@ namespace Tools.Log
 {
 	public class CommonLogger : GeneralLogger
 	{
+		private readonly object lockObj = new object();
+		private StreamWriter writer;
+		private string processName;
 		public CommonLogger()
 		{
-			DatePattern = "yyyy-MM-dd";	
+			DatePattern = "yyyy-MM-dd";
+			TimePattern = "HH : mm : ss : fff";
+			processName = Process.GetCurrentProcess().ProcessName;
 		}
 
-		/// <summary>
-		/// 通用
-		/// </summary>
-		/// <param name="text"></param>
-		public override void Log(params string[] text)
+		public override void Debug(params string[] text)
 		{
-			if (!Open) return;
-			StringBuilder sb = new StringBuilder(2000);
+			if (Level > LogLevel.DEBUG) return;
+			Log(LogLevel.DEBUG, text);
+		}
+
+		public override void Error(string text, Exception ex = null)
+		{
+			if (Level > LogLevel.ERROR) return;
+			if (ex!=null)
+				Log(LogLevel.ERROR, text, ex.Message, ex.StackTrace);
+			else
+				Log(LogLevel.ERROR, text);
+		}
+
+		public override void Info(params string[] text)
+		{
+			if (Level > LogLevel.INFO) return;
+			Log(LogLevel.INFO, text);
+		}
+
+		public override void Warn(params string[] text)
+		{
+			if (Level > LogLevel.WARN) return;
+			Log(LogLevel.WARN, text);
+		}
+
+
+		private void Log(LogLevel level, params string[] text)
+		{
+			if (Level == LogLevel.OFF) return;
+			StringBuilder sb = new StringBuilder(200);
 			foreach (var s in text)
 			{
 				sb.Append(s);
-				sb.Append("\r\n");
+				sb.Append(Environment.NewLine);
 			}
-			StreamWriter writer = null;
-
-			DateTime nowTime = DateTime.Now;
-			string date = nowTime.ToString(DatePattern);
-			string time = nowTime.ToShortTimeString();
+			
 			try
 			{
-				CreateDictIfNotExists();
-				string path = FullFilePath + "Log" + date + ".txt";
-				writer = new StreamWriter(path, true, Encoding.Default);
-				writer.WriteLine(time + ":    " + sb);
-			}
-			catch (Exception e)
-			{
-				string log = "日志方法异常" + e.Message;
-				throw new Exception(log);
-			}
-			finally
-			{
-				if (writer != null)
+				CreateFileIfNotExists();
+				bool token = false;
+				Monitor.TryEnter(lockObj, 100, ref token);
+				if (token)
 				{
-					writer.Close();
-					//writer.Dispose();
+					string date = DateTime.Now.ToString(DatePattern);
+					string p = Directory + $"Log{date}.txt";
+					using (writer = new StreamWriter(p, true, Encoding.Default))
+					{
+						string time = DateTime.Now.ToString(TimePattern);
+						writer.AutoFlush = false;
+						writer.WriteLine(time + $":【{ levelDict[level]}】");
+						writer.WriteLine("【进程】：" + processName);
+						writer.WriteLine("【线程ID】：" + Thread.CurrentThread.ManagedThreadId);
+						writer.WriteLine("【信息】：" + sb);
+						writer.Flush();
+					}
+					Monitor.Exit(lockObj);
 				}
+				else
+				{
+					throw new TimeoutException("获得锁超时");
+				}
+
 			}
+			catch (Exception){ }
+		}
+
+		public override void Log(params string[] text)
+		{
+			Log(Level, text);
 		}
 
 		/// <summary>
@@ -62,9 +102,7 @@ namespace Tools.Log
 		/// <param name="array"></param>
 		public override void Log(string desc, JArray array)
 		{
-			if (!Open) return;
-			string jArrayStr = JsonConvert.SerializeObject(array, Formatting.Indented);
-			Log(desc, jArrayStr);
+			Log(Level, desc, JsonConvert.SerializeObject(array, Formatting.Indented));
 		}
 
 		/// <summary>
@@ -74,9 +112,7 @@ namespace Tools.Log
 		/// <param name="obj"></param>
 		public override void Log(string desc, JObject obj)
 		{
-			if (!Open) return;
-			string jObjStr = JsonConvert.SerializeObject(obj, Formatting.Indented);
-			Log(desc, jObjStr);
+			Log(Level, desc, JsonConvert.SerializeObject(obj, Formatting.Indented));
 		}
 
 		public override void LogJson(string desc, string jsonStr, bool isArray)
@@ -87,6 +123,11 @@ namespace Tools.Log
 				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JObject);
 		}
 
+		public override void LogObject(object obj)
+		{
+			Log(Level, JsonConvert.SerializeObject(obj));
+		}
+
 		/// <summary>
 		///  xml打印
 		/// </summary>
@@ -94,7 +135,6 @@ namespace Tools.Log
 		/// <param name="doc"></param>
 		public override void LogXml(string desc, string xmlStr)
 		{
-			if (!Open) return;
 			XmlDocument doc = new XmlDocument();
 			doc.LoadXml(xmlStr);
 			StringBuilder sb = new StringBuilder();
@@ -106,8 +146,15 @@ namespace Tools.Log
 				writer.Formatting = System.Xml.Formatting.Indented;
 				doc.WriteTo(writer);
 			}
-			string xml = sb.ToString();
-			Log(desc, xml);
+			Log(Level, desc, sb.ToString());
+		}
+
+		private void CreateFileIfNotExists()
+		{
+			if (!System.IO.Directory.Exists(Directory))
+			{
+				System.IO.Directory.CreateDirectory(Directory);
+			}
 		}
 	}
 }
