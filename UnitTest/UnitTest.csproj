@@ -59,9 +59,11 @@
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -69,6 +71,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -86,7 +89,12 @@
     <Compile Include="baseEnhance\PointerTest.cs" />
     <Compile Include="baseEnhance\ReflectorTest.cs" />
     <Compile Include="baseEnhance\AssemblyTest.cs" />
+    <Compile Include="baseEnhance\IOTest.cs" />
+    <Compile Include="baseEnhance\SqlTest.cs" />
+    <Compile Include="baseEnhance\WebTest.cs" />
     <Compile Include="baseEnhance\WeakRefTest.cs" />
+    <Compile Include="Practise\ArrayTest.cs" />
+    <Compile Include="Practise\StringTest.cs" />
     <Compile Include="program\TestString.cs" />
     <Compile Include="program\TestConfig.cs" />
     <Compile Include="TestCalc.cs" />

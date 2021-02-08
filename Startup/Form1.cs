@@ -33,5 +33,25 @@ namespace Startup
 			Input.Text = string.Empty;
 			Output.Text = string.Empty;
 		}
+
+		private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if(e.KeyChar==(char)13)
+			{
+				webBrowser1.Navigate(textBox1.Text);
+			}
+		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			WebBrowser browser = new WebBrowser();
+			browser.Navigate("https://www.taobao.com", true);
+		}
+
+		private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+		{
+			this.Text = webBrowser1.DocumentTitle;
+			textBox1.Text = webBrowser1.Url.ToString();
+		}
 	}
 }
