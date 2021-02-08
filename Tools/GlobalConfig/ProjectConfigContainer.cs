@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,9 @@ namespace Tools.GlobalConfig
 	{
 		private static Dictionary<string, string> properties = new Dictionary<string, string>();
 		private static readonly object obj = new object();
+		private static string path = "../zzy/cnhtc/ConfigFile/ProjectGlobalConfig.xml";
 		private static bool flag = false;
+		private static DateTime lastModifyTime;
 		static ProjectConfigContainer()
 		{
 			Load();
@@ -27,8 +30,11 @@ namespace Tools.GlobalConfig
 					if (!flag)
 					{
 						XmlDocument xd = new XmlDocument();
-						xd.Load("GlobalConfig/GlobalConfig.xml");
+						lastModifyTime = File.GetLastWriteTime(path);
+						//GSPContext.Current.ServerInstallPath
+						xd.Load(path);
 						XmlNodeList list = xd.SelectNodes("/Configuration/Modules/Properties/Property");
+						properties.Clear();
 						foreach (XmlNode item in list)
 						{
 							properties.Add(item.Attributes["code"].Value, item.Attributes["value"].Value);
@@ -41,6 +47,8 @@ namespace Tools.GlobalConfig
 
 		public static string GetProperty(string propertyCode)
 		{
+			if (File.GetLastWriteTime(path) > lastModifyTime)
+				Load();
 			return properties[propertyCode];
 		}
 	}
