@@ -3,6 +3,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.IO;
+using Tools.Component;
+using System.Collections.Generic;
+using System.Reflection;
 namespace UnitTest.baseEnhance
 {
 	[TestClass]
@@ -53,7 +56,23 @@ namespace UnitTest.baseEnhance
 			AppDomain second = AppDomain.CreateDomain("newAppDomain");
 			second.CreateInstance("xxx", "xxx.Class", true, System.Reflection.BindingFlags.CreateInstance, null, new object[] { 1, 2 }, null, null);
 			//second.CreateInstanceAndUnwrap()
-			
+		}
+
+		[TestMethod]
+		public void TestMvc()
+		{
+			PublicComponent component = new PublicComponent();
+			Dictionary<string,object> dict = component.MethodMapping("/robxdj/checkbefore", "我你哥");
+			Console.WriteLine(dict["1"]);
+			string name = "Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+			string name1 = "DesignPattern, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+			Assembly.Load(name);
+			AppDomain.CurrentDomain.Load(name);
+			Console.WriteLine();
+			foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				Console.WriteLine(a.FullName);
+			}
 		}
 	}
 

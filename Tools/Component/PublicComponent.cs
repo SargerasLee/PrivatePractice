@@ -1,36 +1,22 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using Tools.Core;
 
 namespace Tools.Component
 {
 	public class PublicComponent
 	{
-		public Dictionary<string,object> Invoke(string classname,string methodName,List<object> objs)
+		public Dictionary<string,object> MethodMapping(string route, string json)
 		{
-			Dictionary<string, object> dict = new Dictionary<string, object>
+			object o = null;
+			Dictionary<string, CustomComponentInfo> dict = CustomComponentContainer.GetContainer().ClassMapping;
+			foreach (string key in dict.Keys)
 			{
-				{ "Status", null },
-				{ "Data", null },
-				{ "ErrorMsg", null }
-			};
-			Type t = Type.GetType(classname);
-			object proxy = Activator.CreateInstance(t);
-			Type[] types = new Type[objs.Count];
-
-			for (int i = 0; i < objs.Count; i++)
-			{
-				types[i] = objs[i].GetType();
+				if (route.StartsWith(key))
+				{
+					o = dict[key].Invoke(route.Substring(key.Length), json);
+				}
 			}
-			MethodInfo info = t.GetMethod(methodName, types);
-			ParameterInfo returnVal = info.ReturnParameter;
-			object[] param = objs.ToArray();
-			object resObj = info.Invoke(proxy, param);
-			string s = JsonConvert.SerializeObject(resObj);
-			dict["Status"] = "S";
-			dict["Data"] = s;
-			return dict;
+			return new Dictionary<string, object> { { "1", o } };
 		}
 	}
 }

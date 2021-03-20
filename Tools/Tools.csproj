@@ -54,9 +54,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\WebServiceProxy.cs" />
-    <Compile Include="Component\ComponentExtension.cs" />
+    <Compile Include="Attributes\CustomComponentAttribute.cs" />
+    <Compile Include="Attributes\RouteMappingAttribute.cs" />
     <Compile Include="Component\PublicComponent.cs" />
+    <Compile Include="Component\RobxdjExtend.cs" />
     <Compile Include="Convert\ConvertTools.cs" />
+    <Compile Include="Core\CustomComponentContainer.cs" />
+    <Compile Include="Core\CustomComponentInfo.cs" />
+    <Compile Include="Exceptions\RouteNotMatchException.cs" />
     <Compile Include="GenerateCode\GenerateTool.cs" />
     <Compile Include="GlobalConfig\ProjectConfigContainer.cs" />
     <Compile Include="Linq\LinqTools.cs" />
