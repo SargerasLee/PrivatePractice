@@ -16,59 +16,45 @@ namespace UnitTest.baseEnhance
 			{
 				try
 				{
-					int c = 4;
 				}
-				catch(IOException e)
-				{
-					
-				}
-				finally
-				{
-					
-				}
+				catch(IOException e){ }
 				int a = 7;
 			}
-			catch(Exception e)
-			{
-				
-			}
-			finally
-			{
-
-			}
+			catch(Exception e){ }
 		}
 
 		[TestMethod]
 		public void ShowLog()
 		{
-			Log();
+			Eat();
 		}
-		private void Log([CallerLineNumber] int line=-1,[CallerFilePath] string path=null, [CallerMemberName] string name=null)
-		{
-			Console.WriteLine(line);
-			Console.WriteLine(path);
-			Console.WriteLine(name);
-		}
+		
 
 		[MyAttibute("lol",Comment ="wewe")]
 		private void Eat()
 		{
 			Type t = typeof(GR);
-
-			Assembly ab = t.Assembly;
+			string type = "UnitTest.baseEnhance.GR";
+			GR gr = Activator.CreateInstance(Type.GetType(type)) as GR;
+			gr.Log();
 			MethodInfo[] mi = t.GetMethods(BindingFlags.Public);
-			ParameterInfo[] pi = mi[0].GetParameters();
-			Assembly.Load("");
-			Assembly.LoadFrom("");
-			Assembly.LoadFile("");
-			mi[0].GetCustomAttributes(typeof(GR),false);
+			//ParameterInfo[] pi = mi[0].GetParameters();
+			//Assembly.Load("");
+			//Assembly.LoadFrom("");
+			//Assembly.LoadFile("");
+			//mi[0].GetCustomAttributes(typeof(GR),false);
 			//Activator
 		}
 	}
 
 	public class GR
 	{
-		
+		public void Log([CallerLineNumber] int line = -1, [CallerFilePath] string path = null, [CallerMemberName] string name = null)
+		{
+			Console.WriteLine(line);
+			Console.WriteLine(path);
+			Console.WriteLine(name);
+		}
 	}
 
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method,AllowMultiple =false,Inherited =false)]
