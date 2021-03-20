@@ -71,6 +71,9 @@ namespace UnitTest.baseEnhance
 		public void TestReadWriteLock()
 		{
 			ReaderWriterLockSlim rwls = new ReaderWriterLockSlim();
+			SemaphoreSlim ss = new SemaphoreSlim(2);
+			Semaphore sp = new Semaphore(0, 5, "测试的");
+			
 		}
 
 		[TestMethod]

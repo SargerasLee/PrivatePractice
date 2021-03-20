@@ -112,6 +112,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Algorithm\Algorithm.csproj">
+      <Project>{1bbe23a1-8903-4ac3-b502-88a00758a71b}</Project>
+      <Name>Algorithm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DesignPattern\DesignPattern.csproj">
       <Project>{E8A1FB25-1759-40DD-B2DF-78BB2EE5B485}</Project>
       <Name>DesignPattern</Name>

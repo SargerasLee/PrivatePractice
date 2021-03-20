@@ -3,7 +3,8 @@ using System.Text;
 using Logic.Sort;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tools.StringUtils;
-
+using Algorithm.DataStructure.LinkedList;
+using Algorithm.DataStructure.BinaryTree;
 namespace UnitTest.program
 {
 	[TestClass]
@@ -24,6 +25,71 @@ namespace UnitTest.program
 			string res = StringUtil.DealInvoice(sb.Remove(sb.Length - 1, 1).ToString());
 			Console.WriteLine(res);
 		}
+
+		[TestMethod]
+		public void TestReverseList()
+		{
+			LinkedListTool tool = new LinkedListTool();
+			LinkedNode node1 = new LinkedNode()
+			{
+				Value = 1
+			};
+			LinkedNode node2 = new LinkedNode()
+			{
+				Value = 2
+			};
+			LinkedNode node3 = new LinkedNode()
+			{
+				Value = 3
+			};
+			LinkedNode node4 = new LinkedNode()
+			{
+				Value = 4
+			};
+			node1.Next = node2;
+			node2.Next = node3;
+			node3.Next = node4;
+			node4.Next = null;
+			LinkedNode res = tool.Reverse3(node1);
+			tool.PrintLinkedList(res);
+		}
 		private static bool Compare(string s1, string s2) => string.Compare(s1, s2) > 0;
+
+		[TestMethod]
+		public void TestBinaryTreeTraversal()
+		{
+			TreeNode one = new TreeNode()
+			{
+				Left = null,
+				Right=null,
+				Value=1
+			};
+			TreeNode two = new TreeNode()
+			{
+				Left = null,
+				Right = null,
+				Value=2
+			};
+			TreeNode three = new TreeNode()
+			{
+				Left=one,
+				Right=two,
+				Value=3
+			};
+			TreeNode root = new TreeNode()
+			{
+				Left=three,
+				Right=null,
+				Value=0
+			};
+			BinaryTreeTool tool = new BinaryTreeTool();
+			tool.PreOrderTraversal2(root);
+			Console.WriteLine();
+			tool.PreOrderTraversal1(root);
+			Console.WriteLine();
+			tool.LevelTraversal(root);
+			Console.WriteLine();
+			tool.PostOrderTraversal3(root);
+		}
 	}
 }

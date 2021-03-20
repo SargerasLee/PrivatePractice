@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPattern", "DesignPatt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDataExchange", "WebDataExchange\WebDataExchange.csproj", "{D048D966-F0DA-47C6-8642-1701FD18F1FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm", "Algorithm\Algorithm.csproj", "{1BBE23A1-8903-4AC3-B502-88A00758A71B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D048D966-F0DA-47C6-8642-1701FD18F1FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D048D966-F0DA-47C6-8642-1701FD18F1FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D048D966-F0DA-47C6-8642-1701FD18F1FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBE23A1-8903-4AC3-B502-88A00758A71B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBE23A1-8903-4AC3-B502-88A00758A71B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBE23A1-8903-4AC3-B502-88A00758A71B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBE23A1-8903-4AC3-B502-88A00758A71B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
