@@ -11,11 +11,15 @@ namespace Tools.GlobalConfig
 {
 	public static class ProjectConfigContainer
 	{
-		private static Dictionary<string, string> properties = new Dictionary<string, string>();
 		private static readonly object obj = new object();
-		private static string path = "../zzy/cnhtc/ConfigFile/ProjectGlobalConfig.xml";
+		private const string PATH = "GlobalConfig/ProjectGlobalConfig.xml";
 		private static bool flag = false;
 		private static DateTime lastModifyTime;
+
+		public static Dictionary<string, string> Properties { get; } = new Dictionary<string, string>();
+
+		public static List<string> Assemblies { get; } = new List<string>();
+
 		static ProjectConfigContainer()
 		{
 			Load();
@@ -30,26 +34,42 @@ namespace Tools.GlobalConfig
 					if (!flag)
 					{
 						XmlDocument xd = new XmlDocument();
-						lastModifyTime = File.GetLastWriteTime(path);
+						lastModifyTime = File.GetLastWriteTime(PATH);
 						//GSPContext.Current.ServerInstallPath
-						xd.Load(path);
-						XmlNodeList list = xd.SelectNodes("/Configuration/Modules/Properties/Property");
-						properties.Clear();
-						foreach (XmlNode item in list)
-						{
-							properties.Add(item.Attributes["code"].Value, item.Attributes["value"].Value);
-						}
+						xd.Load(PATH);
+						PutProperties(xd);
+						PutAssemblies(xd);
 						flag = true;
 					}
 				}
 			}
 		}
 
+		private static void PutAssemblies(XmlDocument xd)
+		{
+			XmlNodeList assembliesList = xd.SelectNodes("/Configuration/Modules/Componment-Scan/Assembly");
+			Assemblies.Clear();
+			foreach (XmlNode item in assembliesList)
+			{
+				Assemblies.Add(item.Attributes["name"].Value);
+			}
+		}
+
+		private static void PutProperties(XmlDocument xd)
+		{
+			XmlNodeList list = xd.SelectNodes("/Configuration/Modules/Properties/Property");
+			Properties.Clear();
+			foreach (XmlNode item in list)
+			{
+				Properties.Add(item.Attributes["code"].Value, item.Attributes["value"].Value);
+			}
+		}
+
 		public static string GetProperty(string propertyCode)
 		{
-			if (File.GetLastWriteTime(path) > lastModifyTime)
+			if (File.GetLastWriteTime(PATH) > lastModifyTime)
 				Load();
-			return properties[propertyCode];
+			return Properties[propertyCode];
 		}
 	}
 }

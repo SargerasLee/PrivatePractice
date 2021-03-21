@@ -6,12 +6,9 @@
       <Property code="fy" value="api" name=""/>
       <Property code="jj" value="ww" name=""/>
     </Properties>
-    <Sqls>
-      <Select id=""></Select><!--id一般填-->
-      <Update id=""></Update>
-      <Delete id=""></Delete>
-      <Insert id=""></Insert>
-      <Sql id=""></Sql>
-    </Sqls>
+    <Componment-Scan>
+      <Assembly name="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+      <Assembly name="Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"/>
+    </Componment-Scan>
   </Modules>
 </Configuration>

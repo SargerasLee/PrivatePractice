@@ -2,38 +2,39 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Tools.Attributes;
+using Tools.GlobalConfig;
 
 namespace Tools.Core
 {
 	public class CustomComponentContainer
 	{
 		private static readonly CustomComponentContainer container = new CustomComponentContainer();
-		private static readonly object obj = new object();
+
 		public static List<string> BaseScanAssemblies { get; private set; }
 
 		public Dictionary<string, CustomComponentInfo> ClassMapping { get; private set; }
+
 		private CustomComponentContainer()
 		{
-			Init();
-			AppDomain.CurrentDomain.AssemblyLoad += ReloadCustomComponentContainer;
+			AutoScan();
+			AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(ReloadCustomComponent);
 		}
 
-		private void Init()
+		private void AutoScan()
 		{
-			BaseScanAssemblies = new List<string>();
-			BaseScanAssemblies.Add("Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
-			BaseScanAssemblies.Add("Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null");
+			BaseScanAssemblies = ProjectConfigContainer.Assemblies;
 			ClassMapping = new Dictionary<string, CustomComponentInfo>(50);
 			foreach (string s in BaseScanAssemblies)
 			{
-				SingleAssemblyScan(s);
+				SingleScanAssembly(s);
 			}
 		}
 
-		private void SingleAssemblyScan(string assemblyFullName)
+		private void SingleScanAssembly(string assemblyFullName)
 		{
 			Console.WriteLine("加载了");
-			Type[] types = Assembly.Load(assemblyFullName).GetTypes();
+			//Assembly target = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName == assemblyFullName).FirstOrDefault();
+			Type[] types = Assembly.Load(assemblyFullName).GetTypes();//如果内存中已经存在，则不会加载程序集
 			foreach (Type type in types)
 			{
 				CustomComponentAttribute customComponentAttribute = type.GetCustomAttribute<CustomComponentAttribute>(false);
@@ -48,7 +49,7 @@ namespace Tools.Core
 			}
 		}
 
-		private void ReloadCustomComponentContainer(object sender, AssemblyLoadEventArgs args)
+		private void ReloadCustomComponent(object sender, AssemblyLoadEventArgs args)
 		{
 			string name = args.LoadedAssembly.FullName;
 			Console.WriteLine(name);
@@ -56,7 +57,7 @@ namespace Tools.Core
 			{
 				if(s==name)
 				{
-					SingleAssemblyScan(s);
+					SingleScanAssembly(s);
 				}
 			}
 		}
