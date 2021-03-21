@@ -12,4 +12,4 @@
 <!--FullPath 日志文件路径，不带文件名-->
 <!--Assembly 程序集强名称，带公钥-->
 <!--Class 类全限定名-->
-<!--Level 日志级别ALL,TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF-->
+<!--Level 日志级别由低到高ALL,TRACE,DEBUG,INFO,WARN,ERROR,FATAL,OFF-->

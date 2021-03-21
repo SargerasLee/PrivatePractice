@@ -64,7 +64,7 @@ namespace Tools.Log
 			{
 				CreateFileIfNotExists();
 				bool token = false;
-				Monitor.TryEnter(lockObj, 100, ref token);
+				Monitor.TryEnter(lockObj, 500, ref token);
 				if (token)
 				{
 					string date = DateTime.Now.ToString(DatePattern);
@@ -85,47 +85,13 @@ namespace Tools.Log
 				{
 					throw new TimeoutException("获得锁超时");
 				}
-
 			}
 			catch (Exception){ }
 		}
 
-		public override void Log(params string[] text)
-		{
-			Log(Level, text);
-		}
-
-		/// <summary>
-		///  json数组打印
-		/// </summary>
-		/// <param name="desc"></param>
-		/// <param name="array"></param>
-		public override void Log(string desc, JArray array)
-		{
-			Log(Level, desc, JsonConvert.SerializeObject(array, Formatting.Indented));
-		}
-
-		/// <summary>
-		///  json打印
-		/// </summary>
-		/// <param name="desc"></param>
-		/// <param name="obj"></param>
-		public override void Log(string desc, JObject obj)
-		{
-			Log(Level, desc, JsonConvert.SerializeObject(obj, Formatting.Indented));
-		}
-
-		public override void LogJson(string desc, string jsonStr, bool isArray)
-		{
-			if (isArray)
-				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JArray);
-			else
-				Log(desc, JsonConvert.DeserializeObject(jsonStr) as JObject);
-		}
-
 		public override void LogObject(object obj)
 		{
-			Log(Level, JsonConvert.SerializeObject(obj));
+			Log(Level, JsonConvert.SerializeObject(obj, Formatting.Indented));
 		}
 
 		/// <summary>

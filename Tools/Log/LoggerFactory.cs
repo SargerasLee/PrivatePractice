@@ -25,9 +25,8 @@ namespace Tools.Log
 			{"TRACE",LogLevel.TRACE },
 			{"ALL",LogLevel.ALL }
 		};
-
-		private const string DefaultClass = "Tools.Log.CommonLogger";
-		private const string DefaultAssembly = "Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
+		private static readonly string DefaultClass = typeof(CommonLogger).FullName;
+		private static readonly string DefaultAssembly = typeof(CommonLogger).GetType().Assembly.FullName;
 
 		private static LoggerFactory factory = null;
 

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 namespace Tools.Log
 {
@@ -26,11 +26,7 @@ namespace Tools.Log
 			{LogLevel.ALL,"ALL" }
 		};
 
-		public abstract void Log(params string[] text);
-		public abstract void Log(string desc, JArray array);
-		public abstract void Log(string desc, JObject obj);
 		public abstract void LogXml(string desc, string xmlStr);
-		public abstract void LogJson(string desc, string jsonStr, bool isArray);
 		public abstract void LogObject(object obj);
 		public abstract void Debug(params string[] text);
 		public abstract void Info(params string[] text);
