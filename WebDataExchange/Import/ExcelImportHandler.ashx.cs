@@ -21,7 +21,7 @@ namespace Genersoft.WEICHAI.FSSC.WebData.Import
         private GeneralLogger logger;
         public ExcelImportHandler() : base()
         {
-            logger = new LoggerFactory().GetLogger("importExcel");
+            logger = LoggerFactory.SingleInstance().GetLogger("importExcel");
         }
         public void ProcessRequest(HttpContext context)
         {
@@ -128,7 +128,7 @@ namespace Genersoft.WEICHAI.FSSC.WebData.Import
             DataTable dt = new DataTable();
             int beginRowNum = begin == null || string.IsNullOrWhiteSpace(begin) ? sheet.FirstRowNum + 1 : Convert.ToInt32(begin) - 1; //开始行
             int endRowNum = end == null || string.IsNullOrWhiteSpace(end) ? sheet.LastRowNum : Convert.ToInt32(end) - 1;  //结束行
-            logger.Log(beginRowNum + "~~~~~" + endRowNum);
+            logger.Info(beginRowNum + "~~~~~" + endRowNum);
             IRow row0 = sheet.GetRow(0);
             //logger.Log(sheet.SheetName);
             int beginColNum = row0.FirstCellNum;//开始列
@@ -161,33 +161,33 @@ namespace Genersoft.WEICHAI.FSSC.WebData.Import
                             if (DateUtil.IsCellDateFormatted(cell))
                             {
                                 dr[k] = cell.DateCellValue;
-                                logger.Log(j + "&&" + k + dr[k]);
+                                logger.Info(j + "&&" + k + dr[k]);
                             }
                             else
                             {
                                 dr[k] = Convert.ToDecimal(cell.NumericCellValue);
-                                logger.Log(j + "--" + k + dr[k]);
+                                logger.Info(j + "--" + k + dr[k]);
                             }
                         }
                         else if (cell.CellType == CellType.Blank)//空数据类型
                         {
                             dr[k] = "";
-                            logger.Log(j + "++" + k);
+                            logger.Info(j + "++" + k);
                         }
                         else if (cell.CellType == CellType.Formula)//公式类型
                         {
                             dr[k] = eva.Evaluate(cell).StringValue;
-                            logger.Log(j + "##" + k + dr[k]);
+                            logger.Info(j + "##" + k + dr[k]);
                         }
                         else if (cell.CellType == CellType.Error)//错误类型
                         {
                             dr[k] = cell.ErrorCellValue;
-                            logger.Log(j + "%%" + k + dr[k]);
+                            logger.Info(j + "%%" + k + dr[k]);
                         }
                         else //其他类型都按字符串类型来处理
                         {
                             dr[k] = cell.StringCellValue;
-                            logger.Log(j + "**" + k + dr[k]);
+                            logger.Info(j + "**" + k + dr[k]);
                         }
                     }
                     else
