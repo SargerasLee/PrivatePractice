@@ -93,8 +93,8 @@ namespace Tools.Log
 			{
 				XmlNode target = document.SelectSingleNode("//Log[@Code='" + code + "']");
 				module["path"] = target.Attributes["FullPath"].Value;
-				module["className"] = target.Attributes["Class"].Value;
-				module["assembly"] = target.Attributes["Assembly"].Value;
+				module["className"] = string.IsNullOrWhiteSpace(target.Attributes["Class"].Value) ? DefaultClass : target.Attributes["Class"].Value;
+				module["assembly"] = string.IsNullOrWhiteSpace(target.Attributes["Assembly"].Value) ? DefaultAssembly : target.Attributes["Assembly"].Value;
 				module["logLevel"] = levelDict[target.Attributes["Level"].Value];
 			}
 			else

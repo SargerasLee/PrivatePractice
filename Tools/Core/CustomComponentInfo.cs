@@ -24,14 +24,14 @@ namespace Tools.Core
 			}
 		}
 
-		public object Invoke(string route, string json)
+		public object Invoke(string route, params object[] objs)
 		{
 			object o = null;
 			foreach (string key in MethodDict.Keys)
 			{
 				if (route.StartsWith(key))
 				{
-					o = MethodDict[key].Invoke(realCustomComponent, new object[] { json });
+					o = MethodDict[key].Invoke(realCustomComponent, objs);
 				}
 			}
 			return o;

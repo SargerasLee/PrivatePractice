@@ -2,9 +2,9 @@
 <Config>
   <Log Code="ZJ" Name="资金日志" FullPath="c:\log\zjlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
   </Log>
-  <Log Code="YS" Name="应收日志" FullPath="c:\log\arlog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
+  <Log Code="YS" Name="应收日志" FullPath="c:\log\arlog\" Assembly="" Class="" Level="ALL">
   </Log>
-  <Log Code="FY" Name="费用日志" FullPath="c:\log\fylog\" Assembly="Tools, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Class="Tools.Log.CommonLogger" Level="ALL">
+  <Log Code="FY" Name="费用日志" FullPath="c:\log\fylog\" Assembly="" Class="" Level="ALL">
   </Log>
 </Config>
 <!--Code 日志编号-->

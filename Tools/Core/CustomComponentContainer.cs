@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Tools.Attributes;
 using Tools.GlobalConfig;
@@ -32,7 +33,7 @@ namespace Tools.Core
 
 		private void SingleScanAssembly(string assemblyFullName)
 		{
-			Console.WriteLine("加载了");
+			if (string.IsNullOrWhiteSpace(assemblyFullName)) return;
 			//Assembly target = AppDomain.CurrentDomain.GetAssemblies().Where(assembly => assembly.FullName == assemblyFullName).FirstOrDefault();
 			Type[] types = Assembly.Load(assemblyFullName).GetTypes();//如果内存中已经存在，则不会加载程序集
 			foreach (Type type in types)
@@ -52,14 +53,8 @@ namespace Tools.Core
 		private void ReloadCustomComponent(object sender, AssemblyLoadEventArgs args)
 		{
 			string name = args.LoadedAssembly.FullName;
-			Console.WriteLine(name);
-			foreach(string s in BaseScanAssemblies)
-			{
-				if(s==name)
-				{
-					SingleScanAssembly(s);
-				}
-			}
+			string target = BaseScanAssemblies.Where(s => s == name).FirstOrDefault();
+			SingleScanAssembly(target);
 		}
 
 		public static CustomComponentContainer GetContainer()
