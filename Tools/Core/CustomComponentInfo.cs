@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Tools.Attributes;
+using Tools.Exceptions;
 
 namespace Tools.Core
 {
 	public class CustomComponentInfo
 	{
-		public string ClassFullName { get; set; }
+		public string ClassFullName { get; private set; }
 
 		private readonly object realCustomComponent;
-		public Dictionary<string, MethodInfo> MethodDict { get; set; }
+		public Dictionary<string, MethodInfo> MethodDict { get; private set; }
 		public CustomComponentInfo(object comp)
 		{
 			realCustomComponent = comp;
@@ -26,14 +28,10 @@ namespace Tools.Core
 
 		public object Invoke(string route, params object[] objs)
 		{
-			object o = null;
-			foreach (string key in MethodDict.Keys)
-			{
-				if (route.StartsWith(key))
-				{
-					o = MethodDict[key].Invoke(realCustomComponent, objs);
-				}
-			}
+			string targetKey = MethodDict.Keys.Where(key => key == route).FirstOrDefault();
+			if (string.IsNullOrWhiteSpace(targetKey))
+				throw new RouteNotMatchException("未匹配方法");
+			object o = MethodDict[targetKey].Invoke(realCustomComponent, objs);
 			return o;
 		}
 	}

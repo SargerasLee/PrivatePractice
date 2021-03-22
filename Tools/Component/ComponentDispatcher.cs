@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Tools.Core;
+using Tools.Exceptions;
 
 namespace Tools.Component
 {
@@ -9,15 +11,11 @@ namespace Tools.Component
 		private static readonly ComponentDispatcher dispatcher = new ComponentDispatcher();
 		public object Dispatch(string route,params object[] objs)
 		{
-			object obj = null;
 			Dictionary<string, CustomComponentInfo> dict = container.ClassMapping;
-			foreach (string key in dict.Keys)
-			{
-				if (route.StartsWith(key))
-				{
-					obj = dict[key].Invoke(route.Substring(key.Length), objs);
-				}
-			}
+			string targetKey = dict.Keys.Where(key => route.StartsWith(key)).FirstOrDefault();
+			if (string.IsNullOrWhiteSpace(targetKey))
+				throw new RouteNotMatchException("未匹配对应的类");
+			object obj = dict[targetKey].Invoke(route.Substring(targetKey.Length), objs);
 			return obj;
 		}
 
