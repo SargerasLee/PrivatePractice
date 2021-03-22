@@ -62,10 +62,12 @@
     <Compile Include="Convert\ConvertTools.cs" />
     <Compile Include="Core\CustomComponentContainer.cs" />
     <Compile Include="Core\CustomComponentInfo.cs" />
+    <Compile Include="Exceptions\ConfigNotFoundException.cs" />
     <Compile Include="Exceptions\RouteNotMatchException.cs" />
     <Compile Include="GenerateCode\GenerateTool.cs" />
     <Compile Include="GlobalConfig\ProjectConfigContainer.cs" />
     <Compile Include="Linq\LinqTools.cs" />
+    <Compile Include="Log\LogConfig.cs" />
     <Compile Include="Log\LogLevel.cs" />
     <Compile Include="Log\CommonLogger.cs" />
     <Compile Include="Log\GeneralLogger.cs" />
@@ -85,9 +87,6 @@
   <ItemGroup>
     <Content Include="GlobalConfig\ProjectGlobalConfig.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Log\GeneralLogConfig.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup />

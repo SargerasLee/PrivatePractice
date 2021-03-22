@@ -28,11 +28,11 @@ namespace UnitTest
 			string xx=@"{""name"":""zhangsan"",""hobby"":{""lala"":""哈哈哈""}}";
 			JObject obj = JObject.Parse(xx);
 			Console.WriteLine(obj["hobby"]);
-			string str = "";
-			JObject all = JObject.Parse(str);
-			JObject tables = JObject.Parse(all["Tables"].ToString());
-			JArray header = JArray.Parse(tables["Header"].ToString());
-			JArray rows = JArray.Parse(header[0]["Rows"].ToString());
+			//string str = "";
+			//JObject all = JObject.Parse(str);
+			//JObject tables = JObject.Parse(all["Tables"].ToString());
+			//JArray header = JArray.Parse(tables["Header"].ToString());
+			//JArray rows = JArray.Parse(header[0]["Rows"].ToString());
 
 		}
 	}

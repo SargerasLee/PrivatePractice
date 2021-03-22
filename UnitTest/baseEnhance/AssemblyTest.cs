@@ -6,6 +6,8 @@ using System.IO;
 using Tools.Component;
 using System.Collections.Generic;
 using System.Reflection;
+using Newtonsoft.Json;
+
 namespace UnitTest.baseEnhance
 {
 	[TestClass]
@@ -62,8 +64,8 @@ namespace UnitTest.baseEnhance
 		public void TestMvc()
 		{
 			PublicComponent component = new PublicComponent();
-			Dictionary<string,object> dict = component.MethodMapping("/robxdj/checkbefore", "我你哥");
-			Console.WriteLine(dict["1"]);
+			object dict = component.MethodMapping("/robxdj/checkbefore", "我你哥");
+			Console.WriteLine(JsonConvert.SerializeObject(dict));
 			string name = "Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 			string name1 = "DesignPattern, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
 			Assembly.Load(name);

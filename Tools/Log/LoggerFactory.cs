@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Xml;
+using Tools.GlobalConfig;
 
 namespace Tools.Log
 {
 	public class LoggerFactory
 	{
-		private readonly XmlDocument document = new XmlDocument();
 		private static readonly object o=new object();//公共对象锁
-		private readonly string configPath = string.Empty;//配置文件；路径
-
 		private static readonly Dictionary<string, GeneralLogger> logDict = new Dictionary<string, GeneralLogger>();
 		private static readonly Dictionary<string, LogLevel> levelDict = new Dictionary<string, LogLevel>
 		{
@@ -26,28 +24,14 @@ namespace Tools.Log
 			{"ALL",LogLevel.ALL }
 		};
 		private static readonly string DefaultClass = typeof(CommonLogger).FullName;
-		private static readonly string DefaultAssembly = typeof(CommonLogger).GetType().Assembly.FullName;
+		private static readonly string DefaultAssembly = typeof(CommonLogger).Assembly.FullName;
 
-		private static LoggerFactory factory = null;
+		private static readonly LoggerFactory factory = new LoggerFactory();
 
-		private LoggerFactory()
-		{
-			configPath = "Log/GeneralLogConfig.xml";
-			LoadConfig();
-		}
+		private LoggerFactory(){ }
 
 		public static LoggerFactory SingleInstance()
 		{
-			if (factory == null)
-			{
-				lock (o)
-				{
-					if (factory == null)
-					{
-						factory = new LoggerFactory();
-					}					
-				}
-			}
 			return factory;
 		}
 		/// <summary>
@@ -55,9 +39,9 @@ namespace Tools.Log
 		/// </summary>
 		/// <param name="code"></param>
 		/// <returns></returns>
-		private GeneralLogger Bulid(string code, LogLevel level)
+		private GeneralLogger Bulid(string code)
 		{
-			Dictionary<string, object> module = GetModuleConfig(code, level);
+			Dictionary<string, object> module = GetModuleConfig(code);
 			GeneralLogger logger = CreateLogger(module);
 			PutCache(code, logger);
 			return logDict[code];
@@ -65,45 +49,24 @@ namespace Tools.Log
 
 		public GeneralLogger GetLogger(string moduleCode)
 		{
-			return GetLogger(moduleCode, LogLevel.ALL);
-		}
-
-		public GeneralLogger GetLogger(string moduleCode, LogLevel level)
-		{
 			if (logDict.ContainsKey(moduleCode))
 			{
 				return logDict[moduleCode];
 			}
 			else
 			{
-				return Bulid(moduleCode, level);
+				return Bulid(moduleCode);
 			}
 		}
-		private void LoadConfig()
+		private Dictionary<string, object> GetModuleConfig(string code)
 		{
-			if(File.Exists(configPath))
-			{
-				document.Load(configPath);
-			}
-		}
-		private Dictionary<string, object> GetModuleConfig(string code, LogLevel level)
-		{
-			Dictionary<string, object> module = new Dictionary<string, object>(5);
-			if (File.Exists(configPath))
-			{
-				XmlNode target = document.SelectSingleNode("//Log[@Code='" + code + "']");
-				module["path"] = target.Attributes["FullPath"].Value;
-				module["className"] = string.IsNullOrWhiteSpace(target.Attributes["Class"].Value) ? DefaultClass : target.Attributes["Class"].Value;
-				module["assembly"] = string.IsNullOrWhiteSpace(target.Attributes["Assembly"].Value) ? DefaultAssembly : target.Attributes["Assembly"].Value;
-				module["logLevel"] = levelDict[target.Attributes["Level"].Value];
-			}
-			else
-			{
-				module["path"] = "d:\\Log\\"+code+"\\";
-				module["className"] = DefaultClass;
-				module["assembly"] = DefaultAssembly;
-				module["logLevel"] = level;
-			}
+			Dictionary<string, object> module = new Dictionary<string, object>(4);
+			LogConfig config = ProjectConfigContainer.GetLogConfig(code);
+			module["path"] = config.FullPath;
+			module["className"] = string.IsNullOrWhiteSpace(config.Class) ? DefaultClass : config.Class;
+			module["assembly"] = string.IsNullOrWhiteSpace(config.Assembly) ? DefaultAssembly : config.Assembly;
+			module["logLevel"] = levelDict[config.Level];
+			
 			return module;
 		}
 		

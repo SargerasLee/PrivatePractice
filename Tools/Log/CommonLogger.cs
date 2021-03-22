@@ -118,6 +118,7 @@ namespace Tools.Log
 		{
 			if (!System.IO.Directory.Exists(Directory))
 			{
+				Console.WriteLine("没有这个路径");
 				System.IO.Directory.CreateDirectory(Directory);
 			}
 		}

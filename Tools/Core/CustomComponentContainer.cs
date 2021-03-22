@@ -19,11 +19,18 @@ namespace Tools.Core
 		{
 			AutoScan();
 			AppDomain.CurrentDomain.AssemblyLoad += new AssemblyLoadEventHandler(ReloadCustomComponent);
+			ProjectConfigContainer.ConfigFileChanged += ReScan;
+		}
+
+		private void ReScan(object sender, FileChangedEvent changedEvent)
+		{
+			if (changedEvent.BeforeTime < changedEvent.UpdateTime)
+				AutoScan();
 		}
 
 		private void AutoScan()
 		{
-			BaseScanAssemblies = ProjectConfigContainer.Assemblies;
+			BaseScanAssemblies = ProjectConfigContainer.GetAutoScanAssemblies();
 			ClassMapping = new Dictionary<string, CustomComponentInfo>(50);
 			foreach (string s in BaseScanAssemblies)
 			{
