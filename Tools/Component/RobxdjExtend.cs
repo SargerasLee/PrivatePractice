@@ -13,5 +13,10 @@ namespace Tools.Component
 			Console.WriteLine(json);
 			return "我尼玛,GG";
 		}
+		[RouteMapping(Value ="/write/{json}")]
+		public object WriteBack([RouteVariable]string json, [UrlParam]string hh)
+		{
+			return "s";
+		}
 	}
 }

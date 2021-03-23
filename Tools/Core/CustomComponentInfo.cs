@@ -11,7 +11,7 @@ namespace Tools.Core
 		public string ClassFullName { get; private set; }
 
 		private readonly object realCustomComponent;
-		public Dictionary<string, MethodInfo> MethodDict { get; private set; }
+		private readonly Dictionary<string, MethodInfo> MethodDict;
 		public CustomComponentInfo(object comp)
 		{
 			realCustomComponent = comp;
