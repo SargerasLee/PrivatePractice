@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTest.baseEnhance
@@ -9,7 +10,11 @@ namespace UnitTest.baseEnhance
 		[TestMethod]
 		public void TestMethod1()
 		{
-			DoSome();
+			//DoSome();
+			string xx = "adad";
+			Console.WriteLine(xx.Split('?').Length);
+			bool ss = Regex.IsMatch("/userid/{0", "{[a-zA-Z0-9]+}");
+			Console.WriteLine(ss);
 		}
 		private unsafe void DoSome()
 		{

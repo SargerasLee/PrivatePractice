@@ -11,6 +11,7 @@ namespace Tools.Component
 		private static readonly ComponentDispatcher dispatcher = new ComponentDispatcher();
 		public object Dispatch(string route,params object[] objs)
 		{
+			route = route.Trim();
 			Dictionary<string, CustomComponentInfo> dict = container.ClassMapping;
 			string targetKey = dict.Keys.Where(key => route.StartsWith(key)).FirstOrDefault();
 			if (string.IsNullOrWhiteSpace(targetKey))
