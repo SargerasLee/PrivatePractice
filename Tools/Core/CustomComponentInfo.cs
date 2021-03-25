@@ -6,7 +6,7 @@ using Tools.Exceptions;
 
 namespace Tools.Core
 {
-	public class CustomComponentInfo
+	internal class CustomComponentInfo
 	{
 		public string ClassFullName { get; private set; }
 
@@ -26,7 +26,7 @@ namespace Tools.Core
 			}
 		}
 
-		public object Invoke(string route, params object[] objs)
+		public object Match(string route, params object[] objs)
 		{
 			string targetKey = MethodDict.Keys.Where(key => key == route).FirstOrDefault();
 			if (string.IsNullOrWhiteSpace(targetKey))

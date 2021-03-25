@@ -7,7 +7,7 @@ using Tools.GlobalConfig;
 
 namespace Tools.Core
 {
-	public class CustomComponentContainer
+	internal class CustomComponentContainer
 	{
 		private static readonly CustomComponentContainer container = new CustomComponentContainer();
 
