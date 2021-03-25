@@ -63,11 +63,14 @@
     <Compile Include="Component\RobxdjExtend.cs" />
     <Compile Include="Component\Router.cs" />
     <Compile Include="Convert\ConvertTools.cs" />
+    <Compile Include="Core\MethodProxy.cs" />
+    <Compile Include="Core\ParameterProxy.cs" />
     <Compile Include="Core\RouteCassette.cs" />
     <Compile Include="Core\ClassCassette.cs" />
     <Compile Include="Core\CustomComponentContainer.cs" />
-    <Compile Include="Core\CustomComponentInfo.cs" />
+    <Compile Include="Core\CustomComponentProxy.cs" />
     <Compile Include="Core\MethodCassette.cs" />
+    <Compile Include="Core\RouteContext.cs" />
     <Compile Include="Exceptions\ConfigNotFoundException.cs" />
     <Compile Include="Exceptions\RouteNotMatchException.cs" />
     <Compile Include="GenerateCode\GenerateTool.cs" />

@@ -12,7 +12,7 @@ namespace Tools.Component
 		public object Dispatch(string route,params object[] objs)
 		{
 			route = route.Trim();
-			Dictionary<string, CustomComponentInfo> dict = container.ClassMapping;
+			Dictionary<string, CustomComponentProxy> dict = container.ClassMapping;
 			string targetKey = dict.Keys.Where(key => route.StartsWith(key)).FirstOrDefault();
 			if (string.IsNullOrWhiteSpace(targetKey))
 				throw new RouteNotMatchException("未匹配对应的类");

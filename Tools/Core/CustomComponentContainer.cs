@@ -13,7 +13,7 @@ namespace Tools.Core
 
 		public static List<string> BaseScanAssemblies { get; private set; }
 
-		public Dictionary<string, CustomComponentInfo> ClassMapping { get; private set; }
+		public Dictionary<string, CustomComponentProxy> ClassMapping { get; private set; }
 
 		private CustomComponentContainer()
 		{
@@ -31,7 +31,7 @@ namespace Tools.Core
 		private void AutoScan()
 		{
 			BaseScanAssemblies = ProjectConfigContainer.GetAutoScanAssemblies();
-			ClassMapping = new Dictionary<string, CustomComponentInfo>(50);
+			ClassMapping = new Dictionary<string, CustomComponentProxy>(50);
 			foreach (string s in BaseScanAssemblies)
 			{
 				SingleScanAssembly(s);
@@ -49,10 +49,7 @@ namespace Tools.Core
 				if (customComponentAttribute != null)
 				{
 					RouteMappingAttribute routeMapping = type.GetCustomAttribute<RouteMappingAttribute>(false);
-					if (!ClassMapping.ContainsKey(routeMapping.Value))
-						ClassMapping.Add(routeMapping.Value, new CustomComponentInfo(Activator.CreateInstance(type)));
-					else
-						ClassMapping[routeMapping.Value] = new CustomComponentInfo(Activator.CreateInstance(type));
+					ClassMapping[routeMapping.Value] = new CustomComponentProxy(Activator.CreateInstance(type),customComponentAttribute.Id);
 				}
 			}
 		}

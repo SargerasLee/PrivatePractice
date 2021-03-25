@@ -15,6 +15,7 @@ namespace UnitTest.baseEnhance
 			Console.WriteLine(xx.Split('?').Length);
 			bool ss = Regex.IsMatch("/userid/{0", "{[a-zA-Z0-9]+}");
 			Console.WriteLine(ss);
+			Console.WriteLine(xx.Substring(3));
 		}
 		private unsafe void DoSome()
 		{
