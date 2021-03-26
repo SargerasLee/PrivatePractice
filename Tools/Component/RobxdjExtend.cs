@@ -2,6 +2,7 @@
 using Tools.Attributes;
 using System.Collections.Generic;
 using Tools.Core;
+using Tools.Exceptions;
 using System.Web.ModelBinding;
 
 namespace Tools.Component
@@ -14,7 +15,7 @@ namespace Tools.Component
 		public string CheckBeforeSave(string json)
 		{
 			if (json == null)
-				throw new Exception("GG了");
+				throw new BusinessLogicException("GG了");
 			Console.WriteLine(json);
 			return "我尼玛,GG";
 		}

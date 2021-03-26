@@ -67,7 +67,16 @@ namespace UnitTest.baseEnhance
 			Console.WriteLine(component.MethodMapping("/robxdj/write/abcde/fghij?hh=1", "我你哥"));
 			Console.WriteLine(component.MethodMapping("/robxdj/write/hello/app?id=1&name=海明威&lesson=c#", "我你哥"));
 			Console.WriteLine(component.MethodMapping("/robxdj/write/bbq", "我你哥"));
-			//Console.WriteLine(component.MethodMapping("/robxdj/write/aaraadtyvdga/2?hh=1", "我你哥"));
+			try
+			{
+				object obj = component.MethodMapping("/robxdj/checkbefore", "我你哥");
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+			}
+
+			
 			
 		}
 	}

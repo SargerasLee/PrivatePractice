@@ -73,6 +73,7 @@
     <Compile Include="Core\CustomComponentProxy.cs" />
     <Compile Include="Core\MethodCassette.cs" />
     <Compile Include="Core\RouteContext.cs" />
+    <Compile Include="Exceptions\BusinessLogicException.cs" />
     <Compile Include="Exceptions\ConfigNotFoundException.cs" />
     <Compile Include="Exceptions\RouteNotMatchException.cs" />
     <Compile Include="GenerateCode\GenerateTool.cs" />

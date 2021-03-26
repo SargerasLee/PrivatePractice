@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Tools.Attributes;
+using Tools.Exceptions;
 
 namespace Tools.Core
 {
@@ -58,6 +59,9 @@ namespace Tools.Core
 			catch (TargetInvocationException tex)//反调调用的方法 抛出的异常被封装在TargetInvocationException 里
 			{
 				string msg = $"类名：{methodInfo.DeclaringType.FullName}，方法名：{methodInfo.Name}";
+				if (tex.InnerException is BusinessLogicException)
+					throw tex.InnerException;
+
 				throw new TargetInvocationException(msg, tex.InnerException);
 			}
 			JsonAttribute jsonAttribute = methodInfo.GetCustomAttribute<JsonAttribute>(false);
