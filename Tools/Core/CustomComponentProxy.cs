@@ -65,16 +65,25 @@ namespace Tools.Core
 		{
 			if (!Regex.IsMatch(target, routeParamPattern))
 				return null;
-			string[] urlSegment = url.Split('/');
+
+			url = url.IndexOf('/', url.Length - 1) < 0 ? url + "/" : url;//最后一位补一个/
+			target = target.IndexOf('/', target.Length - 1) < 0 ? target + "/" : url;//最后一位补一个/
+
 			MatchCollection mc = Regex.Matches(target, routeParamPattern);
 			Dictionary<string, string> routeParamDict = new Dictionary<string, string>();
-			string key;
+
+			string key, value;
+			int priorPosition = target.IndexOf('{');//存放上一个"/"之后的位置
+			int length;
 			foreach (Match match in mc)
 			{
-				//TODO
-				if(match.Success)
+				if(match.Success)//迭代
 				{
 					key = match.Value.Substring(1, match.Value.Length - 2);
+					length = url.IndexOf('/', priorPosition) - priorPosition;
+					value = url.Substring(priorPosition, length);//每个匹配的"{"位置，找到其后第一个"/"位置，截取中间的部分
+					routeParamDict.Add(key, value);
+					priorPosition = url.IndexOf('/', priorPosition) + 1;
 				}
 			}
 			return routeParamDict;

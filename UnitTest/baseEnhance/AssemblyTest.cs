@@ -64,17 +64,11 @@ namespace UnitTest.baseEnhance
 		public void TestMvc()
 		{
 			PublicComponent component = new PublicComponent();
-			object dict = component.MethodMapping("/robxdj/checkbefore", "我你哥");
-			Console.WriteLine(JsonConvert.SerializeObject(dict));
-			string name = "Entity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-			string name1 = "DesignPattern, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null";
-			Assembly.Load(name);
-			AppDomain.CurrentDomain.Load(name);
-			Console.WriteLine();
-			foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
-			{
-				Console.WriteLine(a.FullName);
-			}
+			Console.WriteLine(component.MethodMapping("/robxdj/write/abcde/fghij?hh=1", "我你哥"));
+			Console.WriteLine(component.MethodMapping("/robxdj/write/hello/app?id=1&name=海明威&lesson=c#", "我你哥"));
+			Console.WriteLine(component.MethodMapping("/robxdj/write/bbq", "我你哥"));
+			//Console.WriteLine(component.MethodMapping("/robxdj/write/aaraadtyvdga/2?hh=1", "我你哥"));
+			
 		}
 	}
 

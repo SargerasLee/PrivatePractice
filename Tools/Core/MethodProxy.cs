@@ -49,10 +49,20 @@ namespace Tools.Core
 					AssembleParam<RouteParamAttribute>(paramDict, paramObjects, i);
 				}
 			}
+
+			object obj;
+			try
+			{
+				obj = methodInfo.Invoke(targetObj, paramObjects);
+			}
+			catch (TargetInvocationException tex)//反调调用的方法 抛出的异常被封装在TargetInvocationException 里
+			{
+				string msg = $"类名：{methodInfo.DeclaringType.FullName}，方法名：{methodInfo.Name}";
+				throw new TargetInvocationException(msg, tex.InnerException);
+			}
 			JsonAttribute jsonAttribute = methodInfo.GetCustomAttribute<JsonAttribute>(false);
-			object obj = methodInfo.Invoke(targetObj, paramObjects);
 			if (jsonAttribute != null)
-				obj = JsonConvert.SerializeObject(obj);
+				obj = JsonConvert.SerializeObject(obj,Formatting.Indented);
 			return obj;
 		}
 
