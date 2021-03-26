@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using Tools.Attributes;
+using Tools.Exceptions;
 
 namespace Tools.Core
 {
@@ -11,44 +12,72 @@ namespace Tools.Core
 		public string Id { get; private set; }
 
 		private readonly object realCustomComponent;
-		private readonly Dictionary<string, MethodProxy> MethodDict;
+		private readonly Dictionary<string, MethodProxy> MethodDict= new Dictionary<string, MethodProxy>();
+
+		private readonly List<string> constUrls = new List<string>();
+		private readonly List<string> routeUrls = new List<string>();
+
+		private const string constUrlPattern = "(/\\w+)+";
+		private const string routeUrlPattern = "(/\\w+)*(/{\\w+})+";
+		private const string routeParamPattern = "{\\w+}";
+
 		public CustomComponentProxy(object comp, string id)
 		{
 			realCustomComponent = comp;
 			Id = id;
-			MethodDict = new Dictionary<string, MethodProxy>();
 			MethodInfo[] methodInfos = realCustomComponent.GetType().GetMethods(BindingFlags.Public | BindingFlags.DeclaredOnly | BindingFlags.Instance);
 			RouteMappingAttribute routeMapping;
+			string value;
 			foreach (MethodInfo info in methodInfos)
 			{
 				routeMapping = info.GetCustomAttribute<RouteMappingAttribute>(false);
 				if (routeMapping != null)
-					MethodDict.Add(routeMapping.Value, new MethodProxy(realCustomComponent,info));
+				{
+					value = routeMapping.Value;
+					MethodDict.Add(value, new MethodProxy(realCustomComponent, info));
+					if (Regex.IsMatch(value, constUrlPattern))
+						constUrls.Add(value);
+					if (Regex.IsMatch(value, routeUrlPattern))
+						routeUrls.Add(value);
+				}	
 			}
 		}
 
-		public object Match(string route, params object[] objs)
+		public object Invoke(string route, params object[] objs)
 		{
 			route = route.Trim();
 			string url = route, kv = string.Empty;
+
 			SplitUrl(route, ref url, ref kv);
-			
+
+			string target = FindPattern(url);
+			if (string.IsNullOrWhiteSpace(target))
+				throw new RouteNotMatchException("未匹配方法");
+
 			Dictionary<string, string> urlParams = ExtractUrlParams(kv);
-			Dictionary<string, string> routeParams = ExtractRouteParams(url);
+			Dictionary<string, string> routeParams = ExtractRouteParams(url, target);
 			
-			object o = MethodDict[""].Invoke(urlParams, routeParams, objs);
+			object o = MethodDict[target].Invoke(urlParams, routeParams, objs);
 			return o;
 		}
 
-		private Dictionary<string, string> ExtractRouteParams(string url)
+		private Dictionary<string, string> ExtractRouteParams(string url, string target)
 		{
-			MatchCollection mc = Regex.Matches(url, "{[a-zA-Z0-9_]+}");
-			string targetKey = MethodDict.Keys.Where(key =>
+			if (!Regex.IsMatch(target, routeParamPattern))
+				return null;
+			string[] urlSegment = url.Split('/');
+			MatchCollection mc = Regex.Matches(target, routeParamPattern);
+			Dictionary<string, string> routeParamDict = new Dictionary<string, string>();
+			string key;
+			foreach (Match match in mc)
 			{
-				return key == url;
+				//TODO
+				if(match.Success)
+				{
+					key = match.Value.Substring(1, match.Value.Length - 2);
+				}
 			}
-			).FirstOrDefault();
-			return null;
+			return routeParamDict;
 		}
 
 		private static void SplitUrl(string route, ref string url, ref string kv)
@@ -79,9 +108,34 @@ namespace Tools.Core
 					continue;
 				urlParams.Add(s[0], s[1]);
 			}
-			if (urlParams.Count <= 0)
-				return null;
 			return urlParams;
+		}
+
+		private string FindPattern(string url)
+		{
+			string target = null;
+			string path = constUrls.Where(item => item == url).FirstOrDefault();
+			if(string.IsNullOrWhiteSpace(path))
+			{
+				string[] urlSegment = url.Split('/');
+				foreach (string item in routeUrls)
+				{
+					string[] pathSegment = item.Split('/');
+					if (urlSegment.Length != pathSegment.Length) 
+						continue;
+					int index = item.IndexOf('{');
+					if (url.Substring(0, index) == item.Substring(0, index))
+					{
+						target = item;
+						break;
+					}
+				}
+			}
+			else
+			{
+				target = path;
+			}
+			return target;
 		}
 	}
 }

@@ -55,8 +55,10 @@
   <ItemGroup>
     <Compile Include="API\WebServiceProxy.cs" />
     <Compile Include="Attributes\CustomComponentAttribute.cs" />
+    <Compile Include="Attributes\JsonAttribute.cs" />
+    <Compile Include="Attributes\ParameterAttribute.cs" />
     <Compile Include="Attributes\RouteMappingAttribute.cs" />
-    <Compile Include="Attributes\RouteVariableAttribute.cs" />
+    <Compile Include="Attributes\RouteParamAttribute.cs" />
     <Compile Include="Attributes\UrlParamAttribute.cs" />
     <Compile Include="Component\ComponentDispatcher.cs" />
     <Compile Include="Component\PublicComponent.cs" />

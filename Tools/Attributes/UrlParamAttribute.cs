@@ -3,9 +3,8 @@
 namespace Tools.Attributes
 {
 	[AttributeUsage(AttributeTargets.Parameter,AllowMultiple =false,Inherited =false)]
-	public class UrlParamAttribute : Attribute
+	public class UrlParamAttribute : ParameterAttribute
 	{
-		public string Name{ get; }
 
 		public UrlParamAttribute(string name = "")
 		{

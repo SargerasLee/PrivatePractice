@@ -19,5 +19,14 @@ namespace UnitTest.baseEnhance
 				Console.WriteLine(i.Index);
 			}
 		}
+		[TestMethod]
+		public void Test2()
+		{
+			string[] regexStr = { "/test/{xx}", "/test/{xx}/{xxo}", "/test/ying/{xx}", "/test/ying", "/{0}/{1}" };
+			bool xx = Regex.IsMatch(regexStr[4], "(/\\w+)*(/{\\w+})+");
+			Console.WriteLine(xx);
+
+			Console.WriteLine(Regex.Match(regexStr[0], "{\\w+}").Value);
+		}
 	}
 }

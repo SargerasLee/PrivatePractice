@@ -72,6 +72,7 @@ namespace UnitTest.baseEnhance
 		{
 			WebRequest.Create("");
 			Uri u = new Uri("https://www.baidu.com");
+			HttpContext c;
 		}
 	}
 }
