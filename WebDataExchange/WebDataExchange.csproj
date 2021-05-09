@@ -98,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enhance\MyModule1.cs" />
+    <Compile Include="Import\ExcelExportHandler.ashx.cs">
+      <DependentUpon>ExcelExportHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Import\ExcelImportHandler.ashx.cs">
       <DependentUpon>ExcelImportHandler.ashx</DependentUpon>
     </Compile>
@@ -112,6 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Import\ExcelImportHandler.ashx" />
+    <Content Include="Import\ExcelExportHandler.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

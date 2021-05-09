@@ -50,6 +50,18 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="npoi.v2.0">
+      <HintPath>..\WebDataExchange\publicDll\npoi.v2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="npoi.v2.0.ooxml">
+      <HintPath>..\WebDataExchange\publicDll\npoi.v2.0.ooxml.dll</HintPath>
+    </Reference>
+    <Reference Include="npoi.v2.0.openxml4net">
+      <HintPath>..\WebDataExchange\publicDll\npoi.v2.0.openxml4net.dll</HintPath>
+    </Reference>
+    <Reference Include="npoi.v2.0.openxmlformats">
+      <HintPath>..\WebDataExchange\publicDll\npoi.v2.0.openxmlformats.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -94,6 +106,7 @@
     <Compile Include="baseEnhance\SqlTest.cs" />
     <Compile Include="baseEnhance\WebTest.cs" />
     <Compile Include="baseEnhance\WeakRefTest.cs" />
+    <Compile Include="excel\ExcelTest.cs" />
     <Compile Include="Practise\ArrayTest.cs" />
     <Compile Include="Practise\StringTest.cs" />
     <Compile Include="program\TestString.cs" />
