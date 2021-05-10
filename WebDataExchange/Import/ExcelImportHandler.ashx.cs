@@ -16,19 +16,19 @@ namespace Genersoft.WEICHAI.FSSC.WebData.Import
     /// <summary>
     /// ExcelImportHandler 的摘要说明
     /// </summary>
-    public class ExcelImportHandler : IHttpHandler
+    public class WorkbookImportHandler : IHttpHandler
     {
         private GeneralLogger logger;
-        public ExcelImportHandler() : base()
+        public WorkbookImportHandler() : base()
         {
             logger = LoggerFactory.SingleInstance().GetLogger("importExcel");
         }
         public void ProcessRequest(HttpContext context)
         {
             HttpPostedFile file = context.Request.Files["excel"];
-            string ifSave = context.Request.Form["ifSave"];//是否存数据库
-            string compID = context.Request.Form["compID"];//扩展构件id
-            string tableName = context.Request.Form["tableName"];//表名
+            //string ifSave = context.Request.Form["ifSave"];//是否存数据库
+            //string compID = context.Request.Form["compID"];//扩展构件id
+            //string tableName = context.Request.Form["tableName"];//表名
             string beginRow = context.Request.Form["beginRow"];//起始行
             string endRow = context.Request.Form["endRow"];//结束行
             string exName = GetExtendName(file.FileName);//扩展名
